@@ -13,7 +13,7 @@ RSpec.describe '.create_db_client' do
       :database => database
     }
   }
-  let(:mysql_client) { double }
+  let(:client_stub) { double }
 
   before do
     allow(ENV).to receive(:[]).with("HOST").and_return(hostname)
@@ -21,12 +21,12 @@ RSpec.describe '.create_db_client' do
     allow(ENV).to receive(:[]).with("DB_PASSWORD").and_return(password)
     allow(ENV).to receive(:[]).with("DB_DATABASE").and_return(database)
 
-    allow(Mysql2::Client).to receive(:new).once
-      .with(params).and_return(mysql_client)
+    allow(Mysql2::Client).to receive(:new).with(params)
+      .and_return(client_stub)
   end
 
   it 'returns db client' do
     client = create_db_client
-    expect(client).to eq(mysql_client)
+    expect(client).to eq(client_stub)
   end
 end
