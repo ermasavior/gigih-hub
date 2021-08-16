@@ -12,13 +12,28 @@ Backend of a simple social media app. Built in Ruby with TDD practice.
 - [ ] Shows 5 trending hashtags
 
 ## Database Schema
+![ER Diagram](ERD.png)
 
-## Dependencies
+There are four tables created in the database, representing five entities in our app.
+
+The five entities:
+
+1. **User**, represents our social media user which contains user informations.
+2. **Post**, represents user's post.
+3. **Comment**, represents user's post as a form of comment to another post. Comment is a form of Post which contains `post_parent_id`.
+3. **Hashtag**, represents hashtag embedded in a post.
+
+## Prerequisites
 1. Ruby v3.0.1
 2. MySQL
 
-### Libraries
+### Library Dependencies
+These libraries are bundled in a `Gemfile`.
+
 1. Sinatra, for simple web server
 2. Mysql2, for database connector
 3. RSpec, for unit test
 4. SimpleCov, for test coverage
+
+## How to Run
+(TBD)
