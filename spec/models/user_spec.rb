@@ -29,6 +29,15 @@ RSpec.describe 'User' do
         )
         user.save
       end
+
+      it 'returns true' do
+        allow(User.client).to receive(:query).with(expected_query)
+
+        user = User.new(
+          username: username, email: email, bio: bio
+        )
+        expect(user.save).to eq(true)
+      end
     end
 
     context 'when params are invalid' do
@@ -43,6 +52,13 @@ RSpec.describe 'User' do
           username: username, email: email, bio: bio
         )
         user.save
+      end
+
+      it 'returns false' do
+        user = User.new(
+          username: username, email: email, bio: bio
+        )
+        expect(user.save).to eq(false)
       end
     end
   end
