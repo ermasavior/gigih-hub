@@ -18,8 +18,7 @@ class Hashtag < Model
 
   def unique?
     hashtags = Hashtag.client.query("SELECT * FROM hashtags WHERE text='#{@text}'")
-    return true if hashtags.each.empty?
-    false
+    hashtags.each.empty?
   end
 
   def self.extract_hashtags(post_text)
