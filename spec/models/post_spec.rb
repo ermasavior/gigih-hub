@@ -31,5 +31,19 @@ RSpec.describe 'Post' do
         expect(post.save).to eq(true)
       end
     end
+
+    context 'when params are invalid' do
+      it 'does not trigger query' do
+        expect(Post.client).not_to receive(:query)
+
+        post = Post.new(text: text, user: user)
+        post.save
+      end
+
+      it 'returns false' do
+        post = Post.new(text: text, user: user)
+        expect(post.save).to eq(false)
+      end
+    end
   end
 end
