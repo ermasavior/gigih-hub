@@ -4,7 +4,7 @@ Backend of a simple social media app. Built in Ruby with TDD practice.
 
 ## Functional Requirements
 
-- [ ] Saves user details (username, email, bio)
+- [x] Saves user details (username, email, bio)
 - [ ] Lets user make a new post
 - [ ] Lets user comment in a post
 - [ ] Lets user attach media (jpg, png, mp4) in a post or comment
