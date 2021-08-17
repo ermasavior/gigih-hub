@@ -17,7 +17,9 @@ class Hashtag < Model
 
   def self.extract_hashtags(post_text)
     hashtag_texts = post_text.scan(/#\w+/)
-    hashtag_texts.map do |text|
+    filtered_hashtag_texts = hashtag_texts.uniq
+
+    filtered_hashtag_texts.map do |text|
       Hashtag.new(text: text)
     end
   end
