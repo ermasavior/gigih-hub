@@ -16,6 +16,8 @@ class Hashtag < Model
   end
 
   def self.extract_hashtags(post_text)
+    return [] if post_text.nil?
+
     hashtag_texts = post_text.scan(/#\w+/)
     filtered_hashtag_texts = hashtag_texts.map(&:downcase).uniq
 
