@@ -33,6 +33,9 @@ RSpec.describe 'Post' do
     end
 
     context 'when params are invalid' do
+      let(:text) { nil }
+      let(:user) { nil }
+
       it 'does not trigger query' do
         expect(Post.client).not_to receive(:query)
 

@@ -11,6 +11,8 @@ class Post < Model
   end
 
   def save
+    return false if @text.nil? or @user.nil?
+
     Post.client.query("INSERT INTO posts(text, user_id) VALUES ('#{text}','#{@user.id}')")
     return true
   end
