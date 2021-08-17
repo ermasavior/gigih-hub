@@ -105,5 +105,18 @@ RSpec.describe 'Hashtag' do
         expect(hashtags).to eq([])
       end
     end
+
+    context 'when post_text is nil' do
+      let(:post_text) { nil }
+      let(:hashtag_texts) { [] }
+      let(:expected_hashtags) {
+        hashtag_texts.map { |text| Hashtag.new(text: text) }
+      }
+
+      it 'returns empty array' do
+        hashtags = Hashtag.extract_hashtags(post_text)
+        expect(hashtags).to eq([])
+      end
+    end
   end
 end
