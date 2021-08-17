@@ -34,6 +34,15 @@ RSpec.describe 'Hashtag' do
           hashtag = Hashtag.new(text: hashtag_text)
           expect(hashtag.save).to eq(true)
         end
+
+        it 'initialize id with last id' do
+          id = 1
+          allow(Hashtag.client).to receive(:query).with(expected_query)
+          expect(Hashtag.client).to receive(:last_id).and_return(id)
+
+          hashtag = Hashtag.new(text: hashtag_text)
+          expect(hashtag.id).to eq(id)
+        end
       end
 
       context 'when hashtag already exists' do
@@ -54,6 +63,13 @@ RSpec.describe 'Hashtag' do
         it 'returns false' do
           hashtag = Hashtag.new(text: hashtag_text)
           expect(hashtag.save).to eq(false)
+        end
+
+        it 'initialize id with existing hashtag id' do
+          allow(Hashtag.client).to receive(:query).with(expected_query)
+
+          hashtag = Hashtag.new(text: hashtag_text)
+          expect(hashtag.id).to eq(existing_hashtag.id)
         end
       end
     end
