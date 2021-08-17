@@ -30,7 +30,7 @@ RSpec.describe 'Hashtag' do
       end
     end
 
-    context 'when params are valid' do
+    context 'when params are invalid' do
       let(:hashtag_text) { nil }
 
       it 'triggers insert new hashtag query' do
@@ -43,6 +43,27 @@ RSpec.describe 'Hashtag' do
       it 'returns false' do
         hashtag = Hashtag.new(text: hashtag_text)
         expect(hashtag.save).to eq(false)
+      end
+    end
+
+    context 'when hashtag has already exists' do
+      let(:hashtag_id) { Hashtag.client.last_id }
+
+      before do
+        Hashtag.client.query("INSERT INTO hashtags(text) VALUES ('#{hashtag_text}')")
+      end
+
+      it 'does not trigger insert query' do
+        expect(Hashtag.client).not_to receive(:query)
+
+        hashtag = Hashtag.new(text: hashtag_text)
+        result = hashtag.save
+
+        expect(result).to eq(false)
+      end
+
+      after do
+        Hashtag.client.query("DELETE FROM hashtags WHERE id='#{hashtag_id}'")
       end
     end
   end
