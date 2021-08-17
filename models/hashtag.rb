@@ -16,5 +16,6 @@ class Hashtag < Model
   end
 
   def self.extract_hashtags(post_text)
+    []
   end
 end

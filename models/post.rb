@@ -15,6 +15,12 @@ class Post < Model
     return false if @text.nil? or @text.size > 1000 or @user.nil?
 
     Post.client.query("INSERT INTO posts(text, user_id) VALUES ('#{text}','#{@user.id}')")
-    return true
+
+    @hashtags = Hashtag.extract_hashtags(@text)
+    @hashtags.each do |hashtag|
+      hashtag.save
+    end
+
+    true
   end
 end
