@@ -1,6 +1,6 @@
-require_relative '../db/db_connector'
+require_relative '../models/model'
 
-class User
+class User < Model
   attr_accessor :id, :username, :email, :bio
 
   def initialize(id=nil, username:, email:, bio:)
