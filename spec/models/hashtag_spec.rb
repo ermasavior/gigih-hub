@@ -21,6 +21,13 @@ RSpec.describe 'Hashtag' do
         hashtag = Hashtag.new(text: hashtag_text)
         hashtag.save
       end
+
+      it 'returns true' do
+        allow(Hashtag.client).to receive(:query).with(expected_query)
+
+        hashtag = Hashtag.new(text: hashtag_text)
+        expect(hashtag.save).to eq(true)
+      end
     end
 
     context 'when params are valid' do
