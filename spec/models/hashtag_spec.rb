@@ -49,43 +49,11 @@ RSpec.describe 'Hashtag' do
         expect(hashtag.save).to eq(false)
       end
     end
-
-    context 'when hashtag already exists' do
-      let(:hashtag_id) { Hashtag.client.last_id }
-
-      before do
-        expected_query
-      end
-
-      it 'does not trigger insert query' do
-        expect(Hashtag.client).not_to receive(:query).with(expected_query)
-
-        hashtag = Hashtag.new(text: hashtag_text)
-        result = hashtag.save
-
-        expect(result).to eq(false)
-      end
-
-      after do
-        Hashtag.client.query("DELETE FROM hashtags WHERE id='#{hashtag_id}'")
-      end
-    end
   end
 
   describe '.unique' do
-    let(:expected_query) { "SELECT * FROM hashtags WHERE text = #{hashtag_text}" }
-
-    it 'triggers select query' do
-      expect(Hashtag.client).to receive(:query).with(expected_query).once
-
-      hashtag = Hashtag.new(text: hashtag_text)
-      hashtag.unique?
-    end
-
     context 'when hashtag is unique' do
       it 'returns true' do
-        allow(Hashtag.client).to receive(:query).with(expected_query)
-
         hashtag = Hashtag.new(text: hashtag_text)
         expect(hashtag.unique?).to eq(true)
       end
