@@ -12,5 +12,6 @@ class Hashtag < Model
     return false if @text.nil?
 
     Hashtag.client.query("INSERT INTO hashtags(text) VALUES ('#{@text}')")
+    true
   end
 end
