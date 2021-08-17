@@ -33,5 +33,8 @@ class Hashtag < Model
   end
 
   def self.find_by_text(text)
+    raw_data = Hashtag.client.query("SELECT * FROM hashtags WHERE text='#{text}'")
+    hashtag_result = raw_data.first
+    Hashtag.new(text: hashtag_result["text"])
   end
 end
