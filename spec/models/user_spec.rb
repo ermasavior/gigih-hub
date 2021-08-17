@@ -62,4 +62,36 @@ RSpec.describe 'User' do
       end
     end
   end
+
+  describe '.find_by_id' do
+    context 'when user is found' do
+      let(:user_id) { User.client.last_id }
+
+      before do
+        User.new(username: username, email: email, bio: bio).save
+      end
+
+      it 'returns user' do
+        user = User.find_by_id(user_id)
+
+        expect(user.id).to eq(user_id)
+        expect(user.username).to eq(username)
+        expect(user.email).to eq(email)
+        expect(user.bio).to eq(bio)
+      end
+
+      after do
+        User.client.query("DELETE FROM users WHERE id='#{user_id}'")
+      end
+    end
+
+    context 'when user is not found' do
+      let(:user_id) { -1 }
+
+      it 'returns nil' do
+        user = User.find_by_id(user_id)
+        expect(user).to eq(nil)
+      end
+    end
+  end
 end
