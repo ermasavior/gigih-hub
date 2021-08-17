@@ -16,12 +16,15 @@ RSpec.describe 'Hashtag' do
 
     context 'when params are valid' do
       context 'when hashtag is unique' do
+        before do
+          allow(Hashtag).to receive(:find_by_text).with(hashtag_text)
+            .and_return(nil)
+        end
+
         it 'triggers insert new hashtag query' do
           expect(Hashtag.client).to receive(:query).with(expected_query).once
-          
-          hashtag = Hashtag.new(text: hashtag_text)
 
-          allow(hashtag).to receive(:unique?).and_return(true)
+          hashtag = Hashtag.new(text: hashtag_text)
           hashtag.save
         end
 
@@ -29,26 +32,27 @@ RSpec.describe 'Hashtag' do
           allow(Hashtag.client).to receive(:query).with(expected_query)
 
           hashtag = Hashtag.new(text: hashtag_text)
-
-          allow(hashtag).to receive(:unique?).and_return(true)
           expect(hashtag.save).to eq(true)
         end
       end
 
       context 'when hashtag already exists' do
+        let(:existing_hashtag) { Hashtag.new(1, text: hashtag_text) }
+
+        before do
+          allow(Hashtag).to receive(:find_by_text).with(hashtag_text)
+            .and_return(existing_hashtag)
+        end
+
         it 'does not insert new hashtag query' do
           expect(Hashtag.client).not_to receive(:query)
 
           hashtag = Hashtag.new(text: hashtag_text)
-          allow(hashtag).to receive(:unique?).and_return(false)
-
           hashtag.save
         end
 
         it 'returns false' do
           hashtag = Hashtag.new(text: hashtag_text)
-          allow(hashtag).to receive(:unique?).and_return(false)
-
           expect(hashtag.save).to eq(false)
         end
       end
@@ -67,30 +71,6 @@ RSpec.describe 'Hashtag' do
       it 'returns false' do
         hashtag = Hashtag.new(text: hashtag_text)
         expect(hashtag.save).to eq(false)
-      end
-    end
-  end
-
-  describe '.unique' do
-    context 'when hashtag is unique' do
-      it 'returns true' do
-        hashtag = Hashtag.new(text: hashtag_text)
-        expect(hashtag.unique?).to eq(true)
-      end
-    end
-
-    context 'when hashtag already exists' do
-      before do
-        Hashtag.new(text: hashtag_text).save
-      end
-
-      it 'returns false' do
-        hashtag = Hashtag.new(text: hashtag_text)
-        expect(hashtag.unique?).to eq(false)
-      end
-
-      after do
-        Hashtag.client.query("DELETE FROM hashtags WHERE text='#{hashtag_text}'")
       end
     end
   end
