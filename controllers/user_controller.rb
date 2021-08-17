@@ -5,6 +5,9 @@ class UserController
     user = User.new(
       username: params['username'], email: params['email'], bio: params['bio']
     )
-    user.save
+    save_success = user.save
+
+    return { status: 200 } if save_success
+    { status: 400 }
   end
 end
