@@ -12,13 +12,15 @@ RSpec.describe 'Hashtag' do
   end
 
   describe '.save' do
-    context 'when params are valid' do
-      let(:expected_query) { "INSERT INTO hashtags(text) VALUES ('#{hashtag_text}')" }
+    let(:expected_query) { "INSERT INTO hashtags(text) VALUES ('#{hashtag_text}')" }
 
+    context 'when params are valid' do
       it 'triggers insert new hashtag query' do
         expect(Hashtag.client).to receive(:query).with(expected_query).once
         
         hashtag = Hashtag.new(text: hashtag_text)
+
+        allow(hashtag).to receive(:unique?).and_return(true)
         hashtag.save
       end
 
@@ -26,6 +28,8 @@ RSpec.describe 'Hashtag' do
         allow(Hashtag.client).to receive(:query).with(expected_query)
 
         hashtag = Hashtag.new(text: hashtag_text)
+
+        allow(hashtag).to receive(:unique?).and_return(true)
         expect(hashtag.save).to eq(true)
       end
     end
@@ -46,15 +50,15 @@ RSpec.describe 'Hashtag' do
       end
     end
 
-    context 'when hashtag has already exists' do
+    context 'when hashtag already exists' do
       let(:hashtag_id) { Hashtag.client.last_id }
 
       before do
-        Hashtag.client.query("INSERT INTO hashtags(text) VALUES ('#{hashtag_text}')")
+        expected_query
       end
 
       it 'does not trigger insert query' do
-        expect(Hashtag.client).not_to receive(:query)
+        expect(Hashtag.client).not_to receive(:query).with(expected_query)
 
         hashtag = Hashtag.new(text: hashtag_text)
         result = hashtag.save

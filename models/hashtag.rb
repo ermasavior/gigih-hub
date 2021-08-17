@@ -10,9 +10,13 @@ class Hashtag < Model
 
   def save
     return false if @text.nil?
+    return false unless self.unique?
 
     Hashtag.client.query("INSERT INTO hashtags(text) VALUES ('#{@text}')")
     true
+  end
+
+  def unique?
   end
 
   def self.extract_hashtags(post_text)
