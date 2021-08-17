@@ -10,6 +10,7 @@ RSpec.describe 'PostController' do
     let(:expected_response) { { status: status } }
 
     it 'calls post.save with params' do
+      expect(User).to receive(:find_by_id).with(user.id).and_return(user)
       expect(Post).to receive(:new).with(text: text, user: user)
         .and_return(post_stub)
       expect(post_stub).to receive(:save)
