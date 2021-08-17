@@ -84,14 +84,15 @@ RSpec.describe 'User' do
         User.client.query("DELETE FROM users WHERE id='#{user_id}'")
       end
     end
-    # context 'when user is not found' do
-    #   let(:user_id) { -1 }
 
-    #   it 'returns nil' do
-    #     user = User.find_by_id(user_id)
+    context 'when user is not found' do
+      let(:user_id) { -1 }
 
-    #     expect(user).to eq(nil)
-    #   end
-    # end
+      it 'returns nil' do
+        user = User.find_by_id(user_id)
+
+        expect(user).to eq(nil)
+      end
+    end
   end
 end
