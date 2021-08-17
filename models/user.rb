@@ -9,4 +9,7 @@ class User < Model
     @email = email,
     @bio = bio
   end
+
+  def save
+  end
 end
