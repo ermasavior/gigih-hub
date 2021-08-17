@@ -9,4 +9,7 @@ class Post < Model
     @text = text
     @user = user
   end
+
+  def save
+  end
 end
