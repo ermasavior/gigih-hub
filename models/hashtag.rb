@@ -7,4 +7,7 @@ class Hashtag < Model
     @id = id
     @text = text
   end
+
+  def save
+  end
 end
