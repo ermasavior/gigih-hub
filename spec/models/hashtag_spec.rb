@@ -58,6 +58,21 @@ RSpec.describe 'Hashtag' do
         expect(hashtag.unique?).to eq(true)
       end
     end
+
+    context 'when hashtag already exists' do
+      before do
+        Hashtag.new(text: hashtag_text).save
+      end
+
+      it 'returns false' do
+        hashtag = Hashtag.new(text: hashtag_text)
+        expect(hashtag.unique?).to eq(false)
+      end
+
+      after do
+        Hashtag.client.query("DELETE FROM hashtags WHERE text='#{hashtag_text}'")
+      end
+    end
   end
 
   describe '.extract_hashtags' do
