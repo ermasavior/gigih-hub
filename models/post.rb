@@ -11,7 +11,7 @@ class Post < Model
   end
 
   def save
-    return false if @text.nil? or @user.nil?
+    return false if @text.nil? or @text.size > 1000 or @user.nil?
 
     Post.client.query("INSERT INTO posts(text, user_id) VALUES ('#{text}','#{@user.id}')")
     return true
