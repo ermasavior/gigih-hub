@@ -90,7 +90,6 @@ RSpec.describe 'User' do
 
       it 'returns nil' do
         user = User.find_by_id(user_id)
-
         expect(user).to eq(nil)
       end
     end
