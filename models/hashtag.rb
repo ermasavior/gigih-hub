@@ -9,5 +9,6 @@ class Hashtag < Model
   end
 
   def save
+    Hashtag.client.query("INSERT INTO hashtags(text) VALUES ('#{@text}')")
   end
 end
