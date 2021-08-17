@@ -31,8 +31,19 @@ RSpec.describe 'Post' do
   describe '.save' do
     context 'when params are valid' do
       let(:expected_query) { "INSERT INTO posts(text, user_id) VALUES ('#{text}','#{user.id}')" }
+      let(:hashtag_texts) { ["hello"] }
+      let(:hashtags) {
+        hashtag_texts.map { |tag| Hashtag.new(text: tag) }
+      }
+
+      before(:each) do
+        allow(Hashtag).to receive(:extract_hashtags).with(text).and_return(hashtags)
+      end
 
       it 'triggers insert new post query' do
+        hashtags.each do |tag|
+          allow(tag).to receive(:save).and_return(true)
+        end
         expect(Post.client).to receive(:query).with(expected_query).once
 
         post = Post.new(text: text, user: user)
@@ -40,10 +51,25 @@ RSpec.describe 'Post' do
       end
 
       it 'returns true' do
+        hashtags.each do |tag|
+          allow(tag).to receive(:save).and_return(true)
+        end
         allow(Post.client).to receive(:query).with(expected_query)
 
         post = Post.new(text: text, user: user)
         expect(post.save).to eq(true)
+      end
+
+      it 'triggers hashtag.save' do
+        hashtags.each do |tag|
+          expect(tag).to receive(:save).and_return(true)
+        end
+        allow(Post.client).to receive(:query).with(expected_query)
+
+        post = Post.new(text: text, user: user)
+        post.save
+
+        expect(post.hashtags).to eq(hashtags)
       end
     end
 
@@ -61,25 +87,6 @@ RSpec.describe 'Post' do
       it 'returns false' do
         post = Post.new(text: text, user: user)
         expect(post.save).to eq(false)
-      end
-    end
-
-    context 'hashtag processing' do
-      let(:hashtag_texts) { ["hello"] }
-      let(:hashtags) {
-        hashtag_texts.map { |tag| Hashtag.new(text: tag) }
-      }
-
-      it 'triggers hashtag.save' do
-        allow(Hashtag).to receive(:extract_hashtags).with(text).and_return(hashtags)
-        hashtags.each do |tag|
-          expect(tag).to receive(:save).and_return(true)
-        end
-
-        post = Post.new(text: text, user: user)
-        post.save
-
-        expect(post.hashtags).to eq(hashtags)
       end
     end
   end
