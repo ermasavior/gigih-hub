@@ -18,5 +18,10 @@ class User < Model
   end
 
   def self.find_by_id(id)
+    result = User.client.query("SELECT * FROM users WHERE id='#{id}'").first
+
+    User.new(
+      result["id"], username: result["username"], email: result["email"], bio: result["bio"]
+    )
   end
 end
