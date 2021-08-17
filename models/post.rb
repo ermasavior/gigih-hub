@@ -11,5 +11,6 @@ class Post < Model
   end
 
   def save
+    Post.client.query("INSERT INTO posts(text, user_id) VALUES ('#{text}','#{@user.id}')")
   end
 end

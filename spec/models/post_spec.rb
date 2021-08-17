@@ -15,7 +15,7 @@ RSpec.describe 'Post' do
 
   describe '.save' do
     context 'when params are valid' do
-      let(:expected_query) { "INSERT INTO posts(text, user_id) VALUES ('#{text}','#{user.id}'" }
+      let(:expected_query) { "INSERT INTO posts(text, user_id) VALUES ('#{text}','#{user.id}')" }
 
       it 'triggers insert new post query' do
         expect(Post.client).to receive(:query).with(expected_query).once
