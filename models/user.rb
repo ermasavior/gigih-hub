@@ -11,5 +11,6 @@ class User < Model
   end
 
   def save
+    User.client.query("INSERT INTO users(username, email, bio) VALUES ('#{username}','#{email}','#{bio}')")
   end
 end

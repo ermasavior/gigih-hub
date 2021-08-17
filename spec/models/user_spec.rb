@@ -18,7 +18,7 @@ RSpec.describe 'User' do
   end
 
   describe '.save' do
-    let(:expected_query) { "INSERT INTO users(username, bio, email) VALUES ('#{username}','#{bio}','#{@email}')" }
+    let(:expected_query) { "INSERT INTO users(username, email, bio) VALUES ('#{username}','#{email}','#{bio}')" }
 
     it 'triggers query to insert new user' do
       expect(User.client).to receive(:query).with(expected_query).once
