@@ -62,5 +62,20 @@ RSpec.describe 'Hashtag' do
         end
       end
     end
+
+    context 'when post_text contains duplicate hashtags' do
+      let(:post_text) { "Mari menyanyi #halo #halo #bandung" }
+      let(:hashtag_texts) { ["#halo", "#bandung"] }
+      let(:expected_hashtags) {
+        hashtag_texts.map { |text| Hashtag.new(text: text) }
+      }
+
+      it 'returns array of hashtags uniquely' do
+        hashtags = Hashtag.extract_hashtags(post_text)
+        hashtags.zip(expected_hashtags) do |hashtag, expected|
+          expect(hashtag.text).to eq(expected.text)
+        end
+      end
+    end
   end
 end
