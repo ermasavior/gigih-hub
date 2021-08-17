@@ -15,22 +15,42 @@ RSpec.describe 'Hashtag' do
     let(:expected_query) { "INSERT INTO hashtags(text) VALUES ('#{hashtag_text}')" }
 
     context 'when params are valid' do
-      it 'triggers insert new hashtag query' do
-        expect(Hashtag.client).to receive(:query).with(expected_query).once
-        
-        hashtag = Hashtag.new(text: hashtag_text)
+      context 'when hashtag is unique' do
+        it 'triggers insert new hashtag query' do
+          expect(Hashtag.client).to receive(:query).with(expected_query).once
+          
+          hashtag = Hashtag.new(text: hashtag_text)
 
-        allow(hashtag).to receive(:unique?).and_return(true)
-        hashtag.save
+          allow(hashtag).to receive(:unique?).and_return(true)
+          hashtag.save
+        end
+
+        it 'returns true' do
+          allow(Hashtag.client).to receive(:query).with(expected_query)
+
+          hashtag = Hashtag.new(text: hashtag_text)
+
+          allow(hashtag).to receive(:unique?).and_return(true)
+          expect(hashtag.save).to eq(true)
+        end
       end
 
-      it 'returns true' do
-        allow(Hashtag.client).to receive(:query).with(expected_query)
+      context 'when hashtag already exists' do
+        it 'does not insert new hashtag query' do
+          expect(Hashtag.client).not_to receive(:query)
 
-        hashtag = Hashtag.new(text: hashtag_text)
+          hashtag = Hashtag.new(text: hashtag_text)
+          allow(hashtag).to receive(:unique?).and_return(false)
 
-        allow(hashtag).to receive(:unique?).and_return(true)
-        expect(hashtag.save).to eq(true)
+          hashtag.save
+        end
+
+        it 'returns false' do
+          hashtag = Hashtag.new(text: hashtag_text)
+          allow(hashtag).to receive(:unique?).and_return(false)
+
+          expect(hashtag.save).to eq(false)
+        end
       end
     end
 
