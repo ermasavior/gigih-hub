@@ -10,9 +10,15 @@ class Hashtag < Model
 
   def save
     return false if @text.nil?
-    return false unless Hashtag.find_by_text(@text).nil?
+
+    hashtag = Hashtag.find_by_text(@text)
+    unless hashtag.nil?
+      @id = hashtag.id
+      return false
+    end
 
     Hashtag.client.query("INSERT INTO hashtags(text) VALUES ('#{@text}')")
+    @id = Hashtag.client.last_id
     true
   end
 

@@ -38,9 +38,10 @@ RSpec.describe 'Hashtag' do
         it 'initialize id with last id' do
           id = 1
           allow(Hashtag.client).to receive(:query).with(expected_query)
-          expect(Hashtag.client).to receive(:last_id).and_return(id)
+          allow(Hashtag.client).to receive(:last_id).and_return(id)
 
           hashtag = Hashtag.new(text: hashtag_text)
+          hashtag.save
           expect(hashtag.id).to eq(id)
         end
       end
@@ -69,6 +70,7 @@ RSpec.describe 'Hashtag' do
           allow(Hashtag.client).to receive(:query).with(expected_query)
 
           hashtag = Hashtag.new(text: hashtag_text)
+          hashtag.save
           expect(hashtag.id).to eq(existing_hashtag.id)
         end
       end
