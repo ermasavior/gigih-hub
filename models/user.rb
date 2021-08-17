@@ -13,6 +13,9 @@ class User < Model
   def save
     unless @username.nil? and @email.nil?
       User.client.query("INSERT INTO users(username, email, bio) VALUES ('#{username}','#{email}','#{bio}')")
+      return true
     end
+
+    return false
   end
 end
