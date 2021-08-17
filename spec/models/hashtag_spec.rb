@@ -167,4 +167,30 @@ RSpec.describe 'Hashtag' do
       end
     end
   end
+
+  describe '.find_by_text' do
+    let(:hashtag_text) { "gigih" }
+
+    context 'when hashtag is found' do
+      before do
+        Hashtag.new(text: hashtag_text).save
+      end
+
+      it 'returns hashtag' do
+        hashtag = Hashtag.find_by_text(hashtag_text)
+        expect(hashtag.text).to eq(hashtag_text)
+      end
+
+      after do
+        Hashtag.client.query("DELETE FROM hashtags WHERE text='#{hashtag_text}'")
+      end
+    end
+
+    context 'when hashtag is not found' do
+      it 'returns nil' do
+        hashtag = Hashtag.find_by_text(hashtag_text)
+        expect(hashtag).to eq(nil)
+      end
+    end
+  end
 end

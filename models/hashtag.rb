@@ -31,4 +31,7 @@ class Hashtag < Model
       Hashtag.new(text: text)
     end
   end
+
+  def self.find_by_text(text)
+  end
 end
