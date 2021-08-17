@@ -16,6 +16,9 @@ class Hashtag < Model
   end
 
   def self.extract_hashtags(post_text)
-    []
+    hashtag_texts = post_text.scan(/#\w+/)
+    hashtag_texts.map do |text|
+      Hashtag.new(text: text)
+    end
   end
 end
