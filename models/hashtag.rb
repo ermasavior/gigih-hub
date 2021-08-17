@@ -9,7 +9,7 @@ class Hashtag < Model
   end
 
   def save
-    return if @text.nil?
+    return false if @text.nil?
 
     Hashtag.client.query("INSERT INTO hashtags(text) VALUES ('#{@text}')")
   end
