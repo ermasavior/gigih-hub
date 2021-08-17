@@ -23,6 +23,13 @@ RSpec.describe 'Post' do
         post = Post.new(text: text, user: user)
         post.save
       end
+
+      it 'returns true' do
+        allow(Post.client).to receive(:query).with(expected_query)
+
+        post = Post.new(text: text, user: user)
+        expect(post.save).to eq(true)
+      end
     end
   end
 end
