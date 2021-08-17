@@ -8,7 +8,7 @@ class Post < Model
     @created_at = created_at
     @text = text
     @user = user
-    @hashtags = []
+    @hashtags = Hashtag.extract_hashtags(@text)
   end
 
   def save
@@ -16,7 +16,6 @@ class Post < Model
 
     Post.client.query("INSERT INTO posts(text, user_id) VALUES ('#{text}','#{@user.id}')")
 
-    @hashtags = Hashtag.extract_hashtags(@text)
     @hashtags.each do |hashtag|
       hashtag.save
     end

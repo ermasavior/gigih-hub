@@ -11,6 +11,21 @@ RSpec.describe 'Post' do
       expect(post.text).to eq(text)
       expect(post.user).to eq(user)
     end
+
+    context 'process hashtag' do
+      let(:hashtag_texts) { ["hello"] }
+      let(:hashtags) {
+        hashtag_texts.map { |tag| Hashtag.new(text: tag) }
+      }
+
+      it 'triggers Hashtag.extract_hashtags' do
+        expect(Hashtag).to receive(:extract_hashtags).with(text).once
+          .and_return(hashtags)
+
+        post = Post.new(text: text, user: user)
+        expect(post.hashtags).to eq(hashtags)
+      end
+    end
   end
 
   describe '.save' do
@@ -54,14 +69,6 @@ RSpec.describe 'Post' do
       let(:hashtags) {
         hashtag_texts.map { |tag| Hashtag.new(text: tag) }
       }
-
-      it 'triggers Hashtag.extract_hashtags' do
-        expect(Hashtag).to receive(:extract_hashtags).with(text).once
-          .and_return(hashtags)
-
-        post = Post.new(text: text, user: user)
-        post.save
-      end
 
       it 'triggers hashtag.save' do
         allow(Hashtag).to receive(:extract_hashtags).with(text).and_return(hashtags)
