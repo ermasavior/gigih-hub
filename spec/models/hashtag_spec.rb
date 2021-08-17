@@ -46,4 +46,19 @@ RSpec.describe 'Hashtag' do
       end
     end
   end
+
+  describe '.extract_hashtags' do
+    context 'when post_text contains unique hashtags' do
+      let(:post_text) { "#halo #kawula #muda" }
+      let(:hashtag_texts) { ["halo", "kawula", "muda"] }
+      let(:hashtags) {
+        hashtag_texts.map { |text| Hashtag.new(text: text) }
+      }
+
+      it 'returns array of hashtags' do
+        result = Hashtag.extract_hashtags(post_text)
+        expect(result).to eq(hashtags)
+      end
+    end
+  end
 end
