@@ -14,4 +14,7 @@ class Hashtag < Model
     Hashtag.client.query("INSERT INTO hashtags(text) VALUES ('#{@text}')")
     true
   end
+
+  def self.extract_hashtags(post_text)
+  end
 end

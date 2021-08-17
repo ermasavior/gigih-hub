@@ -48,5 +48,32 @@ RSpec.describe 'Post' do
         expect(post.save).to eq(false)
       end
     end
+
+    context 'hashtag processing' do
+      let(:hashtag_texts) { ["hello"] }
+      let(:hashtags) {
+        hashtag_texts.map { |tag| Hashtag.new(text: tag) }
+      }
+
+      it 'triggers Hashtag.extract_hashtags' do
+        expect(Hashtag).to receive(:extract_hashtags).with(text).once
+          .and_return(hashtags)
+
+        post = Post.new(text: text, user: user)
+        post.save
+      end
+
+      it 'triggers hashtag.save' do
+        allow(Hashtag).to receive(:extract_hashtags).with(text).and_return(hashtags)
+        hashtags.each do |tag|
+          expect(tag).to receive(:save).and_return(true)
+        end
+
+        post = Post.new(text: text, user: user)
+        post.save
+
+        expect(post.hashtags).to eq(hashtags)
+      end
+    end
   end
 end
