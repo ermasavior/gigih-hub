@@ -9,3 +9,7 @@ post '/api/users' do
   controller = UserController.new
   controller.create(params)
 end
+
+after do
+  response.body = JSON.dump(response.body)
+end
