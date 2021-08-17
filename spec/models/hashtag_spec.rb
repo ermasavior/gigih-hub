@@ -22,5 +22,21 @@ RSpec.describe 'Hashtag' do
         hashtag.save
       end
     end
+
+    context 'when params are valid' do
+      let(:hashtag_text) { nil }
+
+      it 'triggers insert new hashtag query' do
+        expect(Hashtag.client).not_to receive(:query)
+        
+        hashtag = Hashtag.new(text: hashtag_text)
+        hashtag.save
+      end
+
+      it 'returns false' do
+        hashtag = Hashtag.new(text: hashtag_text)
+        expect(hashtag.save).to eq(false)
+      end
+    end
   end
 end
