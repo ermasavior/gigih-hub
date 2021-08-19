@@ -41,9 +41,6 @@ RSpec.describe 'Post' do
       end
 
       it 'triggers insert new post query' do
-        hashtags.each do |tag|
-          allow(tag).to receive(:save).and_return(true)
-        end
         expect(Post.client).to receive(:query).with(expected_query).once
 
         post = Post.new(text: text, user: user)
@@ -51,25 +48,10 @@ RSpec.describe 'Post' do
       end
 
       it 'returns true' do
-        hashtags.each do |tag|
-          allow(tag).to receive(:save).and_return(true)
-        end
         allow(Post.client).to receive(:query).with(expected_query)
 
         post = Post.new(text: text, user: user)
         expect(post.save).to eq(true)
-      end
-
-      it 'triggers hashtag.save' do
-        hashtags.each do |tag|
-          expect(tag).to receive(:save).and_return(true)
-        end
-        allow(Post.client).to receive(:query).with(expected_query)
-
-        post = Post.new(text: text, user: user)
-        post.save
-
-        expect(post.hashtags).to eq(hashtags)
       end
     end
 

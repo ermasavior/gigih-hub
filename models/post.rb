@@ -16,10 +16,6 @@ class Post < Model
 
     Post.client.query("INSERT INTO posts(text, user_id) VALUES ('#{text}','#{@user.id}')")
 
-    @hashtags.each do |hashtag|
-      hashtag.save
-    end
-
     true
   end
 end
