@@ -16,9 +16,12 @@ RSpec.describe 'Hashtag' do
 
     context 'when params are valid' do
       context 'when hashtag is unique' do
+        let(:hashtag_id) { 1 }
+
         before do
           allow(Hashtag).to receive(:find_by_text).with(hashtag_text)
             .and_return(nil)
+          allow(Hashtag.client).to receive(:last_id).and_return(hashtag_id)
         end
 
         it 'triggers insert new hashtag query' do
@@ -36,13 +39,11 @@ RSpec.describe 'Hashtag' do
         end
 
         it 'initialize id with last id' do
-          id = 1
           allow(Hashtag.client).to receive(:query).with(expected_query)
-          allow(Hashtag.client).to receive(:last_id).and_return(id)
 
           hashtag = Hashtag.new(text: hashtag_text)
           hashtag.save
-          expect(hashtag.id).to eq(id)
+          expect(hashtag.id).to eq(hashtag_id)
         end
       end
 
