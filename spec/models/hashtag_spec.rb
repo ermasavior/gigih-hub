@@ -94,12 +94,13 @@ RSpec.describe 'Hashtag' do
   end
 
   describe '.extract_hashtags' do
+    let(:expected_hashtags) {
+      hashtag_texts.map { |text| Hashtag.new(text: text) }
+    }
+
     context 'when post_text contains unique hashtags' do
       let(:post_text) { "#halo #kawula #muda" }
       let(:hashtag_texts) { ["#halo", "#kawula", "#muda"] }
-      let(:expected_hashtags) {
-        hashtag_texts.map { |text| Hashtag.new(text: text) }
-      }
 
       it 'returns array of hashtags' do
         hashtags = Hashtag.extract_hashtags(post_text)
@@ -112,9 +113,6 @@ RSpec.describe 'Hashtag' do
     context 'when post_text contains duplicate hashtags' do
       let(:post_text) { "Mari menyanyi #halo #halo #bandung" }
       let(:hashtag_texts) { ["#halo", "#bandung"] }
-      let(:expected_hashtags) {
-        hashtag_texts.map { |text| Hashtag.new(text: text) }
-      }
 
       it 'returns array of hashtags uniquely' do
         hashtags = Hashtag.extract_hashtags(post_text)
@@ -127,9 +125,6 @@ RSpec.describe 'Hashtag' do
     context 'when post_text contains hashtags with camel cases' do
       let(:post_text) { "Mari menyanyi #HaLo #haLo #bandung" }
       let(:hashtag_texts) { ["#halo", "#bandung"] }
-      let(:expected_hashtags) {
-        hashtag_texts.map { |text| Hashtag.new(text: text) }
-      }
 
       it 'returns array of unique hashtags in lower case' do
         hashtags = Hashtag.extract_hashtags(post_text)
@@ -142,9 +137,6 @@ RSpec.describe 'Hashtag' do
     context 'when post_text does not contain hashtags' do
       let(:post_text) { "Mari menyanyi Halo Halo Bandung" }
       let(:hashtag_texts) { [] }
-      let(:expected_hashtags) {
-        hashtag_texts.map { |text| Hashtag.new(text: text) }
-      }
 
       it 'returns empty array' do
         hashtags = Hashtag.extract_hashtags(post_text)
@@ -155,9 +147,6 @@ RSpec.describe 'Hashtag' do
     context 'when post_text is nil' do
       let(:post_text) { nil }
       let(:hashtag_texts) { [] }
-      let(:expected_hashtags) {
-        hashtag_texts.map { |text| Hashtag.new(text: text) }
-      }
 
       it 'returns empty array' do
         hashtags = Hashtag.extract_hashtags(post_text)
