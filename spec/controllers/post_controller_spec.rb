@@ -11,11 +11,19 @@ RSpec.describe 'PostController' do
     let(:post_hashtag) { double }
     let(:expected_response) { { status: status } }
 
-    it 'calls post.save with params' do
+    it 'calls user, post, hashtag, and post_hashtag with params' do
       expect(User).to receive(:find_by_id).with(user.id).and_return(user)
       expect(Post).to receive(:new).with(text: text, user: user)
         .and_return(post)
       expect(post).to receive(:save)
+
+      expect(post).to receive(:hashtags).and_return(hashtags)      
+      hashtags.each do |hashtag|
+        expect(hashtag).to receive(:save)
+        expect(PostHashtag).to receive(:new).with(post: post, hashtag: hashtag)
+          .and_return(post_hashtag)
+        expect(post_hashtag).to receive(:save)
+      end
 
       controller = PostController.new
       controller.create(params)
