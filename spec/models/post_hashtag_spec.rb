@@ -39,8 +39,8 @@ RSpec.describe 'PostHashtag' do
     end
 
     context 'when params are invalid' do
-      let(:post) { nil }
-      let(:hashtag) { nil }
+      let(:post) { [ Post.new(nil, user: user, text: text), nil ].sample }
+      let(:hashtag) { [ Hashtag.new(nil, text: "#cantik"), nil ].sample }
 
       it 'does not trigger insert new posthashtag' do
         expect(PostHashtag.client).not_to receive(:query)
