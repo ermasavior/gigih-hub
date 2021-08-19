@@ -9,5 +9,7 @@ class PostHashtag < Model
   end
 
   def save
+    PostHashtag.client.query("INSERT INTO post_hashtags(post_id, hashtag_id) VALUES ('#{@post.id}','#{@hashtag.id}')")
+    true
   end
 end
