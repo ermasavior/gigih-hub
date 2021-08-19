@@ -1,4 +1,6 @@
+require_relative '../models/user'
 require_relative '../models/post'
+require_relative '../models/post_hashtag'
 
 class PostController
   def create(params)

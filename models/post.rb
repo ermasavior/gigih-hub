@@ -1,4 +1,5 @@
 require_relative '../models/model'
+require_relative '../models/hashtag'
 
 class Post < Model
   attr_accessor :id, :text, :created_at, :user, :hashtags
