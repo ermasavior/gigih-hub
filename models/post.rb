@@ -16,7 +16,7 @@ class Post < Model
     return false if @text.nil? or @text.size > 1000 or @user.nil?
 
     Post.client.query("INSERT INTO posts(text, user_id) VALUES ('#{text}','#{@user.id}')")
-
+    @id = Post.client.last_id
     true
   end
 end
