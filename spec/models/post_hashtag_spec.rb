@@ -33,5 +33,22 @@ RSpec.describe 'PostHashtag' do
         expect(post_hashtag.save).to eq(true)
       end
     end
+
+    context 'when params are invalid' do
+      let(:post) { nil }
+      let(:hashtag) { nil }
+
+      it 'does not trigger insert new posthashtag' do
+        expect(PostHashtag.client).not_to receive(:query)
+
+        post_hashtag = PostHashtag.new(post: post, hashtag: hashtag)
+        post_hashtag.save
+      end
+
+      it 'returns false' do
+        post_hashtag = PostHashtag.new(post: post, hashtag: hashtag)
+        expect(post_hashtag.save).to eq(false)
+      end
+    end
   end
 end
