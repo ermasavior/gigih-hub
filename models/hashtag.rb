@@ -38,6 +38,6 @@ class Hashtag < Model
     hashtag_result = raw_data.first
     return nil if hashtag_result.nil?
 
-    Hashtag.new(text: hashtag_result['text'])
+    Hashtag.new(hashtag_result['id'], text: hashtag_result['text'])
   end
 end

@@ -166,6 +166,7 @@ RSpec.describe 'Hashtag' do
 
       it 'returns hashtag' do
         hashtag = Hashtag.find_by_text(hashtag_text)
+        expect(hashtag.id).not_to eq(nil)
         expect(hashtag.text).to eq(hashtag_text)
       end
 
