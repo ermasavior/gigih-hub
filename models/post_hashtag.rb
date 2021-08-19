@@ -7,4 +7,7 @@ class PostHashtag < Model
     @post = post
     @hashtag = hashtag
   end
+
+  def save
+  end
 end
