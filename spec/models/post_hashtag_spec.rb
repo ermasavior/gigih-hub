@@ -6,6 +6,10 @@ RSpec.describe 'PostHashtag' do
   let(:post) { Post.new(1, user: user, text: text) }
   let(:hashtag) { Hashtag.new(1, text: "#cantik") }
 
+  before(:each) do
+    allow(Hashtag).to receive(:extract_hashtags).with(text).and_return([hashtag])
+  end
+
   describe 'initialize' do
     it 'creates a post hashtag' do
       post_hashtag = PostHashtag.new(post: post, hashtag: hashtag)
