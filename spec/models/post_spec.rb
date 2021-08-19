@@ -35,9 +35,11 @@ RSpec.describe 'Post' do
       let(:hashtags) {
         hashtag_texts.map { |tag| Hashtag.new(text: tag) }
       }
+      let(:post_id) { 1 }
 
       before(:each) do
         allow(Hashtag).to receive(:extract_hashtags).with(text).and_return(hashtags)
+        allow(Post.client).to receive(:last_id).and_return(post_id)
       end
 
       it 'triggers insert new post query' do
@@ -52,6 +54,14 @@ RSpec.describe 'Post' do
 
         post = Post.new(text: text, user: user)
         expect(post.save).to eq(true)
+      end
+
+      it 'initialize id with last id' do
+        allow(Post.client).to receive(:query).with(expected_query)
+
+        post = Post.new(text: text, user: user)
+        post.save
+        expect(post.id).to eq(post_id)
       end
     end
 
