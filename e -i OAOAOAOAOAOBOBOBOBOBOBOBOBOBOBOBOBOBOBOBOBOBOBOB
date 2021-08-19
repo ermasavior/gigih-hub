@@ -1,0 +1,590 @@
+[33mcommit 1fbeb403ae10e87a6348daaa4cdb10175d9ec59d[m[33m ([m[1;36mHEAD -> [m[1;32mhashtag[m[33m)[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Fri Aug 20 00:07:05 2021 +0700
+
+    [REFACTOR] remove unnecessary method call for post.save
+
+[33mcommit 399ec7b043575f6dbb46e4aa4ee0088282e6528e[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Fri Aug 20 00:02:40 2021 +0700
+
+    [REFACTOR] test posthashtag: add stub for hashtag.extract_hashtags
+
+[33mcommit 6c2f9b992a41e7fb12df604d98669733e5f99e56[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Thu Aug 19 23:59:05 2021 +0700
+
+    [GREEN] test post_hashtag.save passed: does not triggers insert query when params are invalid
+
+[33mcommit f688a6fe1fba71101a48bd6f77cd9a65c5b0c83d[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Thu Aug 19 23:58:16 2021 +0700
+
+    [RED] add test post_hashtag.save: does not triggers insert query when params are invalid
+
+[33mcommit e59e2f03fe8d216a6b424c439d86e8c6cc34314a[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Thu Aug 19 23:55:46 2021 +0700
+
+    [GREEN] test post_hashtag.save passed: triggers insert query when params are valid
+
+[33mcommit ec24110079b036658a0190bbceb7b6462ad551c5[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Thu Aug 19 23:53:38 2021 +0700
+
+    [RED] add test post_hashtag.save: triggers insert query when params are valid
+
+[33mcommit 63c43bc125054ec3818976845fe2a31d35ca8cb3[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Thu Aug 19 23:39:05 2021 +0700
+
+    [GREEN] test PostHashtag.new passed: initialize
+
+[33mcommit 6a8fd7c4ad204383191aa11be05cced0be4f03b3[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Thu Aug 19 23:34:44 2021 +0700
+
+    [RED] add test PostHashtag.new: initialize
+
+[33mcommit 938906270bd0cfae265bca7ffdc003c879d48280[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Thu Aug 19 23:13:18 2021 +0700
+
+    [REFACTOR] remove unnecessary tests on controller
+
+[33mcommit 1e7f4a75a1299b394c88a24a2c90442d81807fd2[m[33m ([m[1;31morigin/hashtag[m[33m)[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Wed Aug 18 00:05:28 2021 +0700
+
+    [GREEN] add test hashtag.save: initialize id attribute
+
+[33mcommit c938ce32bfc1206b70629b0fc3eee1a7650151f5[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Wed Aug 18 00:01:12 2021 +0700
+
+    [RED] add test hashtag.save: initialize id attribute
+
+[33mcommit 18cb40270dc92385eeff04ee0568ed549c289b81[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 23:56:42 2021 +0700
+
+    [REFACTOR] Remove hashtag.unique? and replace to use Hashtag.find_by_text
+
+[33mcommit e6d6e67d4931b9ed656246b0053512ca46bc48d5[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 23:42:28 2021 +0700
+
+    [REFACTOR] hashtag.unique? to use Hashtag.find_by_text to query
+
+[33mcommit 4adc940fde90e039650d6766cba5f6f1fa276aef[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 23:39:58 2021 +0700
+
+    [GREEN] test Hashtag.find_by_text passed when hashtag is not found
+
+[33mcommit 5571928768c9aada973e0af42d86a8113c059901[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 23:38:49 2021 +0700
+
+    [GREEN] test Hashtag.find_by_text passede hashtag is found
+
+[33mcommit 67373a25d0ef4baa534e458d843562056d127fd9[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 23:35:14 2021 +0700
+
+    [RED] add Hashtag.find_by_text test
+
+[33mcommit 1b335c32b330c1a3bc39d137ec7d502789d6dc67[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 22:34:50 2021 +0700
+
+    [REFACTOR] add hashtag.save test when hashtag already exists
+
+[33mcommit fc8c91f37f394d51e12529fa1bc962be3de3de68[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 22:30:16 2021 +0700
+
+    [REFACTOR] hashtag.unique?: simplify return function
+
+[33mcommit 91fafeebe44bb3a2cd4a779443405085863e6e2d[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 22:29:20 2021 +0700
+
+    [GREEN] test hashtag.unique? passed: return false when hashtag already exists
+
+[33mcommit 06fcf7e74490ecde6bd7a8dadcebf9d76702452d[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 22:28:16 2021 +0700
+
+    [RED] add test hashtag.unique?: return false when hashtag already exists
+
+[33mcommit 945c484ac37b2fbc05d95762059cd21e0f1e462d[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 22:24:55 2021 +0700
+
+    [GREEN] test hashtag.unique? passed: triggers select query, when hashtag is unique it returns true
+
+[33mcommit e5f62aaa22aa8587d4513d87acebad1441e87273[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 20:56:51 2021 +0700
+
+    [RED] add test hashtag.unique?: triggers select query, when hashtag is unique it returns true
+
+[33mcommit ac8dab7fd1a55243bb0a4d6b00d75b4040591b64[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 20:50:46 2021 +0700
+
+    [GREEN] test Hashtag.save passed: when hashtag already exists, it does not trigger insert query and returns false
+
+[33mcommit 24ce7733e9aee4c9428012aa10bb64e400102d3f[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 20:35:55 2021 +0700
+
+    [REFACTOR] post test move hashtag processing
+
+[33mcommit 876549e57cd7bcf72967ff4ff261149377b3acda[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 20:14:14 2021 +0700
+
+    [RED] add test Hashtag.save: when hashtag already exists, it does not trigger insert query and returns false
+
+[33mcommit 44c6c81b78252ed7636693776728a3919c504871[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:47:43 2021 +0700
+
+    [REFACTOR] Move Hashtag.extract_hashtags to Post initialize
+
+[33mcommit 904c3a68607e5bf5e1232b5da13dde77ed270542[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:44:00 2021 +0700
+
+    [GREEN] test Hashtag.extract_hashtags passed: return empty string when post text is nill
+
+[33mcommit facbefcdf81ae329beb3f3ccdd380c33c759de19[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:43:28 2021 +0700
+
+    [RED] add test Hashtag.extract_hashtags: return empty string when post text is nill
+
+[33mcommit cef7182f05d22e755513b8be0f9b65b1f2b9de93[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:39:46 2021 +0700
+
+    [GREEN] add test Hashtag.extract_hashtags: return empty array when there is no hashtags in a post
+
+[33mcommit 994afbba5453c79299f781f982dce2875db46925[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:36:49 2021 +0700
+
+    [GREEN] test Hashtag.extract_hashtags passed: return array of unique hashtags in lower case when post contains multiple hashtags with camel cases
+
+[33mcommit 592c66b8b3c144141591909a1e74cb15358fc9d5[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:35:18 2021 +0700
+
+    [RED] add test Hashtag.extract_hashtags: return array of unique hashtags in lower case when post contains multiple hashtags with camel cases
+
+[33mcommit 3eed376bf2b3aa1c9d0d7ce0a5ce76f6d70ea7ec[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:32:25 2021 +0700
+
+    [GREEN] test Hashtag.extract_hashtags passed: return array of unique hashtags when post contains multiple hashtags
+
+[33mcommit bf9003232c08055ddc6b9af50a7448568e6a4a47[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:30:12 2021 +0700
+
+    [RED] add test Hashtag.extract_hashtags: return array of unique hashtags when post contains multiple hashtags
+
+[33mcommit cbc6f52e176fc746753f04da15786318a344ce1c[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:27:04 2021 +0700
+
+    [GREEN] Hashtag.extract_hashtags passed: return array of hashtags when post contains unique hashtags
+
+[33mcommit c7f04e807e75957801d88f7bd4e19831cce692c0[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:13:08 2021 +0700
+
+    [RED] test Hashtag.extract_hashtags: return array of hashtags when post contains unique hashtags
+
+[33mcommit 494d29c73bbb309aaa4ee2d722eb55538c88a556[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:06:24 2021 +0700
+
+    [GREEN] test Post.save passed: process hashtags
+
+[33mcommit 0ad1aa4427c269f166719a15f73426109825a64b[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 19:01:13 2021 +0700
+
+    [RED] add test Post.save: process hashtags
+
+[33mcommit 3ad99e34620d77d1ed684b11a38e4cfab3dcd491[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 18:42:39 2021 +0700
+
+    [GREEN] test Hashtag.save passed: returns true when params are valid
+
+[33mcommit 890edc9d972cb6fa9470c857153d684953f4b947[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 18:42:20 2021 +0700
+
+    [RED] add test Hashtag.save: returns true when params are valid
+
+[33mcommit 1b6ff3208d0e9e59e01b902dc468720aa234ab94[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 18:41:23 2021 +0700
+
+    [GREEN] test Hashtag.save passed: does not insert new hashtag when params are invalid
+
+[33mcommit 3abb150a96a6b69a536777965275036cf5a7dce3[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 18:40:56 2021 +0700
+
+    [RED] add test Hashtag.save: does not insert new hashtag when params are invalid
+
+[33mcommit 6bf9c775552bda6dcc662dd2b7008cfb44a94b78[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 18:38:23 2021 +0700
+
+    [GREEN] test Hashtag.save passed: insert new hashtag when params are valid
+
+[33mcommit 7c195c7fb162a000fcda8fa41dbe832deda8f2d1[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 18:37:19 2021 +0700
+
+    [RED] add test Hashtag.save: insert new hashtag when params are valid
+
+[33mcommit e00a18194eb7bbc4c0ef9bffda6b2457264c4e86[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 18:32:26 2021 +0700
+
+    [GREEN] test Hashtag.new passed: initialize
+
+[33mcommit 5eec9806fb22acfd13a44fc3c07b5b189c4c1f7d[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 18:31:59 2021 +0700
+
+    [RED] add test Hashtag.new: initialize
+
+[33mcommit 94e26caa8570d99cdfae1bdef67a6fee6abf8427[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: da9daea 6516bd9
+Author: Erma Safira Nurmasyita <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:55:52 2021 +0700
+
+    Merge pull request #13 from ermasavior/post-api
+    
+    Add incomplete validation in post model
+
+[33mcommit 6516bd98e71439fcdaf4e086cf036f79ccda96d2[m[33m ([m[1;31morigin/post-api[m[33m, [m[1;32mpost-api[m[33m)[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:54:41 2021 +0700
+
+    [CHORES] Add incomplete validation in post model
+
+[33mcommit da9daea27617dae4a4ef7884de758259f189b446[m
+Merge: 155ad28 619f1bc
+Author: Erma Safira Nurmasyita <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:25:15 2021 +0700
+
+    Merge pull request #12 from ermasavior/post-api
+    
+    Create new post endpoint
+
+[33mcommit 619f1bc4d8a0b126b86af2ab1b8a3185759e9216[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:23:39 2021 +0700
+
+    Add api route and check make a new post on README
+
+[33mcommit 9cb0726cfdcf60a04602ad2b42139e5862c90150[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:19:04 2021 +0700
+
+    [GREEN] User.find_by_id test passed: returns nil when user is not found
+
+[33mcommit e0bc74ac2f4c5bf0de2fad6b52187c961448d100[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:17:57 2021 +0700
+
+    [RED] add User.find_by_id test: returns nil when user is not found
+
+[33mcommit 57a115eee9fc59362cc0a5c5b13d8796b6b3dd36[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:17:28 2021 +0700
+
+    [GREEN] User.find_by_id test passed: returns user when user is found
+
+[33mcommit 762830090a2eedbc9a87736aceff629848702e6d[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:13:47 2021 +0700
+
+    [RED] add User.find_by_id test: returns user when user is found
+
+[33mcommit 9cd8708d87c3fdb7775fd53707b84e31e5d88b19[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:03:51 2021 +0700
+
+    [GREEN] test PostController.create passed: context to check params
+
+[33mcommit 99584ff5ef00a87bc48c8aae69bdbdba32f9a22c[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:03:02 2021 +0700
+
+    [RED] add test PostController.create: context to check params
+
+[33mcommit 5167a9b136ac545cd349ac66eb52b495fb061c37[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 17:00:32 2021 +0700
+
+    [GREEN] test PostController.create passed: calls post.save with params
+
+[33mcommit 34026483c30e8479825cae66660a7291271acab6[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 16:56:37 2021 +0700
+
+    [RED] add test PostController.create: calls post.save with params
+
+[33mcommit b281cdbe406b2d8673a1087c9f23fed38585cc6b[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 16:50:17 2021 +0700
+
+    [GREEN] test Post.save passed: when params are invalid
+
+[33mcommit f3825f51f1b1b5bbc5c2867bbb22891e78f0ca20[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 16:49:51 2021 +0700
+
+    [RED] add test Post.save: when params are invalid
+
+[33mcommit 7d797cb576d98cdf76be86ae38031a8b9139818a[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 16:45:57 2021 +0700
+
+    [GREEN] test Post.save response passed: response true when post is succesfully saved
+
+[33mcommit 854282b9a21faac932e2977857dd8463645f88c8[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 16:45:32 2021 +0700
+
+    [RED] test Post.save response: response true when post is succesfully saved
+
+[33mcommit 9478c573659cd59f83504c12e8efada0d965d1ef[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 16:43:49 2021 +0700
+
+    [GREEN] test Post.save passed: triggers query when params are valid
+
+[33mcommit 000913f549977773c795190529d3e8f0490029c3[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 16:41:51 2021 +0700
+
+    [CHORES] Fix user id assignment error in User model
+
+[33mcommit 1930245604aa6d40ae0afd41602b4a49fd7d5075[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 16:24:09 2021 +0700
+
+    [RED] add test Post.save: triggers query when params are valid
+
+[33mcommit c507c0b934b6071ad795825e3e9b7b437800aafc[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 16:16:35 2021 +0700
+
+    [GREEN] test Post.new passed: initialize
+
+[33mcommit 2a058bab1aba47a8c6524e2d1cfad77d94d0114c[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 16:15:48 2021 +0700
+
+    [RED] add test Post.new: initialize
+
+[33mcommit 155ad289a1ca5eb1eb331f44ae7e436e2dc93190[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:53:39 2021 +0700
+
+    Initialize simplecov
+
+[33mcommit 6681792bab43cb008414d6342c9a8b393ac92a8a[m
+Merge: a5cf528 6bfafc7
+Author: Erma Safira Nurmasyita <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:50:03 2021 +0700
+
+    Merge pull request #11 from ermasavior/user-api
+    
+    User endpoint to save user details
+
+[33mcommit 6bfafc78caaf0699291b34386d615cf557fc1626[m[33m ([m[1;31morigin/user-api[m[33m, [m[1;32muser-api[m[33m)[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:41:33 2021 +0700
+
+    Add json response on main.rb
+
+[33mcommit a9d68bd4dee495700c56d9b210d826e57d942d40[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:37:16 2021 +0700
+
+    [GREEN] Test for response status in user controller passed
+
+[33mcommit c14579db6cbcac3f984c1b644da51cb3da9990a1[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:34:16 2021 +0700
+
+    [RED] Add test for response status in user controller
+
+[33mcommit f069591fe034f66f78741bd2db3836b4ede334c1[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:24:46 2021 +0700
+
+    [REFACTOR] test user.save passed
+
+[33mcommit ca052beb24a4bce6f10b891525e6f77b8fd8d08e[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:22:59 2021 +0700
+
+    [GREEN] test user.save passed: returns true if params are valid, returns false if params are invalid
+
+[33mcommit ece47b3158d4a98cc702fdc150c297c6b2d9e868[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:22:18 2021 +0700
+
+    [RED] add test user.save: returns true if params are valid, returns false if params are invalid
+
+[33mcommit 064d2550d3eaca4360e8c72eb937bec5524ced3f[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:15:49 2021 +0700
+
+    Update readme to check save user details feature
+
+[33mcommit 6159aa839a5fe4ed579f05214f2c4245f31f6c39[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:14:03 2021 +0700
+
+    Add POST /api/users endpoint
+
+[33mcommit d833d7d740b52ed9ebbbfc8c4ec2c062b3f29142[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:13:32 2021 +0700
+
+    [CHORES] fix user save validation to allow nil bio
+
+[33mcommit 50c326761ce470d1e07d86b59bea460f53496641[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:02:56 2021 +0700
+
+    [GREEN] test UserController.create calls user.save passed
+
+[33mcommit 3bebf6081fbe2351deb2bece9f98491883ce5523[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 15:01:24 2021 +0700
+
+    [RED] add test UserController.create: calls user.save
+
+[33mcommit 1db9bb4d058efa633652487bddf9b64660d9bbc0[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 14:49:18 2021 +0700
+
+    [GREEN] test user.save: when params are invalid, it does not trigger query passed
+
+[33mcommit 0139e26dacf47cc48225e326cad4b37cf353926b[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 14:47:24 2021 +0700
+
+    [RED] add context to test user.save: when params are invalid, it does not trigger query
+
+[33mcommit 23e885c8a4878bfa12de4d8db9cea2e1543274da[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 14:43:31 2021 +0700
+
+    [GREEN] test user.save triggers insert new user query passed
+
+[33mcommit 2026f3487523dfa8b15cca726a09abd2294cd34b[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 14:25:44 2021 +0700
+
+    [RED] test user.save to trigger insert query
+
+[33mcommit 27483f1da3c178c38b0c38c3b92921ab3856a58a[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 14:09:18 2021 +0700
+
+    [REFACTOR] add Model class which contains db client to inherit models
+
+[33mcommit 798bf8d68612de3a8716cd942fc9918d362f3ada[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 13:52:53 2021 +0700
+
+    [GREEN] test User.new passed to save username, email, and bio
+
+[33mcommit 337e2a703e499d78ad60608e5e77339ac1c60601[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 13:34:36 2021 +0700
+
+    [RED] test User.new expected to save username, email, and bio
+
+[33mcommit a5cf5280e9ada249efac6de11f85ba0f1cc84e9c[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 00:15:47 2021 +0700
+
+    Initialize main.rb
+
+[33mcommit 722603975935758053aaf015e7ad00389725b9fa[m
+Merge: 8d8e3ec 6b81e0b
+Author: Erma Safira Nurmasyita <erma.safira@gmail.com>
+Date:   Tue Aug 17 00:10:09 2021 +0700
+
+    Merge pull request #6 from ermasavior/database
+    
+    Add DB Connector
+
+[33mcommit 6b81e0bdb247c31b48d15323807e9808f77c49ab[m[33m ([m[1;31morigin/database[m[33m, [m[1;32mdatabase[m[33m)[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 00:08:41 2021 +0700
+
+    [GREEN] db connector spec for create_db_client returns client stub
+
+[33mcommit dd8671cd3ab85708aba4e9e9ddd217f6ae454984[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Tue Aug 17 00:05:41 2021 +0700
+
+    [RED] add db connector spec for create_db_client to return client stub
+
+[33mcommit 3a9a0af0365709b49cea9287096189abf2ad3863[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Mon Aug 16 23:52:06 2021 +0700
+
+    Add db env variable
+
+[33mcommit 8d8e3ecbe3e8bd48c6fa50b07630f916333aac8a[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Mon Aug 16 23:42:45 2021 +0700
+
+    Init rspec and bundle
+
+[33mcommit dbc83d619c73df914090898d7481bb9024cdbb5b[m
+Merge: 7c04ea4 a643db7
+Author: Erma Safira Nurmasyita <erma.safira@gmail.com>
+Date:   Mon Aug 16 23:35:16 2021 +0700
+
+    Merge pull request #5 from ermasavior/database
+    
+    Database schema
+
+[33mcommit a643db7274eb9910343f3609eda6d61648fdf2cf[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Mon Aug 16 23:34:12 2021 +0700
+
+    Update readme
+
+[33mcommit eb12c505efafe0cb95c590b4d1489a77bca03e56[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Mon Aug 16 23:18:04 2021 +0700
+
+    Add ERD image
+
+[33mcommit 7c04ea4ea4afaa853a76d662db727e227982fc03[m
+Author: Erma Safira N <erma.safira@gmail.com>
+Date:   Mon Aug 16 14:38:22 2021 +0700
+
+    Initialize project
