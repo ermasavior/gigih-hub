@@ -28,6 +28,24 @@ RSpec.describe 'Post' do
     end
   end
 
+  describe '.valid?' do
+    context 'when attributes are valid' do
+      it 'returns true' do
+        post = Post.new(text: text, user: user)
+        expect(post.valid?).to eq(true)
+      end
+    end
+
+    context 'when attributes are invalid' do
+      let(:text) { nil }
+
+      it 'returns false' do
+        post = Post.new(text: text, user: user)
+        expect(post.valid?).to eq(false)
+      end
+    end
+  end
+
   describe '.save' do
     context 'when params are valid' do
       let(:created_at) { '2021-08-20 23:23:12' }

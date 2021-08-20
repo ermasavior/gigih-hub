@@ -13,6 +13,9 @@ class Post < Model
     @hashtags = Hashtag.extract_hashtags(@text)
   end
 
+  def valid?
+  end
+
   def save
     return false if @text.nil? || (@text.size > 1000) || @user.nil?
 
