@@ -1,4 +1,4 @@
-require_relative '../models/hashtag'
+require_relative '../models/model'
 
 class Hashtag < Model
   attr_reader :id, :text
