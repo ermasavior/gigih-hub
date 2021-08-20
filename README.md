@@ -6,7 +6,7 @@ Backend of a simple social media app. Built in Ruby with TDD practice.
 
 - [x] Saves user details (username, email, bio)
 - [x] Lets user make a new post
-- [ ] Lets user comment in a post
+- [x] Lets user comment in a post
 - [ ] Lets user attach media (jpg, png, mp4) in a post or comment
 - [x] Lets user put hashtags in a post or comment
 - [x] Shows 5 trending hashtags
