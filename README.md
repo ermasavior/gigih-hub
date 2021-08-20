@@ -9,7 +9,7 @@ Backend of a simple social media app. Built in Ruby with TDD practice.
 - [ ] Lets user comment in a post
 - [ ] Lets user attach media (jpg, png, mp4) in a post or comment
 - [x] Lets user put hashtags in a post or comment
-- [ ] Shows 5 trending hashtags
+- [x] Shows 5 trending hashtags
 
 ## Database Schema
 ![ER Diagram](ERD.png)
