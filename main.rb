@@ -4,7 +4,7 @@ require_relative 'controllers/post_controller'
 require_relative 'controllers/hashtag_controller'
 
 get '/' do
-  return "Hello World from Gigih Hub API"
+  return 'Hello World from Gigih Hub API'
 end
 
 post '/api/users' do

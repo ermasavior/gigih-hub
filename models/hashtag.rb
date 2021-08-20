@@ -3,7 +3,7 @@ require_relative '../models/model'
 class Hashtag < Model
   attr_reader :id, :text
 
-  def initialize(id=nil, text:)
+  def initialize(id = nil, text:)
     @id = id
     @text = text
   end
@@ -52,7 +52,7 @@ class Hashtag < Model
       LIMIT 5
     ")
 
-    hashtags = Array.new
+    hashtags = []
     results.each do |result|
       hashtags << Hashtag.new(result['id'], text: result['text'])
     end

@@ -1,7 +1,7 @@
 require_relative '../../models/hashtag'
 
 RSpec.describe 'Hashtag' do
-  let(:hashtag_text) { "GenerasiGIGIH" }
+  let(:hashtag_text) { 'GenerasiGIGIH' }
 
   describe 'initialize' do
     it 'creates new hashtag' do
@@ -20,7 +20,7 @@ RSpec.describe 'Hashtag' do
 
         before do
           allow(Hashtag).to receive(:find_by_text).with(hashtag_text)
-            .and_return(nil)
+                                                  .and_return(nil)
           allow(Hashtag.client).to receive(:last_id).and_return(hashtag_id)
         end
 
@@ -52,7 +52,7 @@ RSpec.describe 'Hashtag' do
 
         before do
           allow(Hashtag).to receive(:find_by_text).with(hashtag_text)
-            .and_return(existing_hashtag)
+                                                  .and_return(existing_hashtag)
         end
 
         it 'does not insert new hashtag query' do
@@ -82,7 +82,7 @@ RSpec.describe 'Hashtag' do
 
       it 'triggers insert new hashtag query' do
         expect(Hashtag.client).not_to receive(:query)
-        
+
         hashtag = Hashtag.new(text: hashtag_text)
         hashtag.save
       end
@@ -95,13 +95,13 @@ RSpec.describe 'Hashtag' do
   end
 
   describe '.extract_hashtags' do
-    let(:expected_hashtags) {
+    let(:expected_hashtags) do
       hashtag_texts.map { |text| Hashtag.new(text: text) }
-    }
+    end
 
     context 'when post_text contains unique hashtags' do
-      let(:post_text) { "#halo #kawula #muda" }
-      let(:hashtag_texts) { ["#halo", "#kawula", "#muda"] }
+      let(:post_text) { '#halo #kawula #muda' }
+      let(:hashtag_texts) { ['#halo', '#kawula', '#muda'] }
 
       it 'returns array of hashtags' do
         hashtags = Hashtag.extract_hashtags(post_text)
@@ -112,8 +112,8 @@ RSpec.describe 'Hashtag' do
     end
 
     context 'when post_text contains duplicate hashtags' do
-      let(:post_text) { "Mari menyanyi #halo #halo #bandung" }
-      let(:hashtag_texts) { ["#halo", "#bandung"] }
+      let(:post_text) { 'Mari menyanyi #halo #halo #bandung' }
+      let(:hashtag_texts) { ['#halo', '#bandung'] }
 
       it 'returns array of hashtags uniquely' do
         hashtags = Hashtag.extract_hashtags(post_text)
@@ -124,8 +124,8 @@ RSpec.describe 'Hashtag' do
     end
 
     context 'when post_text contains hashtags with camel cases' do
-      let(:post_text) { "Mari menyanyi #HaLo #haLo #bandung" }
-      let(:hashtag_texts) { ["#halo", "#bandung"] }
+      let(:post_text) { 'Mari menyanyi #HaLo #haLo #bandung' }
+      let(:hashtag_texts) { ['#halo', '#bandung'] }
 
       it 'returns array of unique hashtags in lower case' do
         hashtags = Hashtag.extract_hashtags(post_text)
@@ -136,7 +136,7 @@ RSpec.describe 'Hashtag' do
     end
 
     context 'when post_text does not contain hashtags' do
-      let(:post_text) { "Mari menyanyi Halo Halo Bandung" }
+      let(:post_text) { 'Mari menyanyi Halo Halo Bandung' }
       let(:hashtag_texts) { [] }
 
       it 'returns empty array' do
@@ -157,7 +157,7 @@ RSpec.describe 'Hashtag' do
   end
 
   describe '.find_by_text' do
-    let(:hashtag_text) { "gigih" }
+    let(:hashtag_text) { 'gigih' }
 
     context 'when hashtag is found' do
       before do
@@ -188,7 +188,7 @@ RSpec.describe 'Hashtag' do
       ['#gigih1', '#semangat2', '#halo3', '#oke4', '#santai5']
     end
     let(:expected_query) do
-    "
+      "
       SELECT hashtags.id, hashtags.text, COUNT(*) AS hashtag_count
       FROM hashtags
       INNER JOIN post_hashtags ON hashtags.id = post_hashtags.hashtag_id
@@ -207,14 +207,14 @@ RSpec.describe 'Hashtag' do
 
     it 'triggers query to get top five hashtags' do
       expect(Hashtag.client).to receive(:query).with(expected_query).once
-        .and_return(expected_query_result)
+                                               .and_return(expected_query_result)
 
       hashtags = Hashtag.find_trendings
     end
 
     it 'returns five trending hashtags' do
       allow(Hashtag.client).to receive(:query).with(expected_query).once
-        .and_return(expected_query_result)
+                                              .and_return(expected_query_result)
 
       hashtags = Hashtag.find_trendings
       hashtags.zip(trending_hashtag_texts).each do |hashtag, hashtag_text|

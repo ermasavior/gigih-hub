@@ -8,6 +8,7 @@ class UserController
     save_success = user.save
 
     return { status: 200 } if save_success
+
     { status: 400 }
   end
 end

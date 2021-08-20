@@ -1,10 +1,10 @@
 require_relative '../../models/post_hashtag'
 
 RSpec.describe 'PostHashtag' do
-  let(:user) { User.new(1, username: "cici", email: "abc@gmail.com", bio: nil) }
-  let(:text) { "Assalamualaikum #cantik" }
+  let(:user) { User.new(1, username: 'cici', email: 'abc@gmail.com', bio: nil) }
+  let(:text) { 'Assalamualaikum #cantik' }
   let(:post) { Post.new(1, user: user, text: text) }
-  let(:hashtag) { Hashtag.new(1, text: "#cantik") }
+  let(:hashtag) { Hashtag.new(1, text: '#cantik') }
 
   before(:each) do
     allow(Hashtag).to receive(:extract_hashtags).with(text).and_return([hashtag])
@@ -39,8 +39,8 @@ RSpec.describe 'PostHashtag' do
     end
 
     context 'when params are invalid' do
-      let(:post) { [ Post.new(nil, user: user, text: text), nil ].sample }
-      let(:hashtag) { [ Hashtag.new(nil, text: "#cantik"), nil ].sample }
+      let(:post) { [Post.new(nil, user: user, text: text), nil].sample }
+      let(:hashtag) { [Hashtag.new(nil, text: '#cantik'), nil].sample }
 
       it 'does not trigger insert new posthashtag' do
         expect(PostHashtag.client).not_to receive(:query)

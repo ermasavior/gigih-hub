@@ -5,7 +5,7 @@ class HashtagController
     hashtags = Hashtag.find_trendings
     {
       status: 200,
-      data: hashtags.map{ |hashtag| hashtag.to_hash }
+      data: hashtags.map { |hashtag| hashtag.to_hash }
     }
   end
 end
