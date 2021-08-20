@@ -10,6 +10,12 @@ class User < Model
     @bio = bio
   end
 
+  def to_hash
+    {
+      id: id, username: username, email: email, bio: bio
+    }
+  end
+
   def save
     return false if @username.nil? || @email.nil?
 

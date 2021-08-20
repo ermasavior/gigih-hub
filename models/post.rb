@@ -14,6 +14,13 @@ class Post < Model
     @parent_post_id = parent_post_id
   end
 
+  def to_hash
+    {
+      id: id, created_at: created_at, text: text, user: user.to_hash,
+      parent_post_id: parent_post_id, hashtags: hashtags.map(&:to_hash)
+    }
+  end
+
   def valid?
     return false if @user.nil?
     return false if @text.nil? || (@text.size > 1000)
@@ -24,7 +31,7 @@ class Post < Model
   def save
     return false unless valid?
 
-    parent_post_id = 'NULL' unless parent_post_id.nil?
+    parent_post_id = 'NULL' if parent_post_id.nil? || parent_post_id == ''
     current_time = Time.now.strftime('%Y-%m-%d %H:%M:%S')
     Post.client.query("
       INSERT INTO posts(text, user_id, parent_post_id, created_at)

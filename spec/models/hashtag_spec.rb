@@ -11,6 +11,15 @@ RSpec.describe 'Hashtag' do
     end
   end
 
+  describe '.to_hash' do
+    let(:hashtag) { Hashtag.new(text: hashtag_text) }
+    let(:expected_hash) { { id: hashtag.id, text: hashtag.text } }
+
+    it 'returns hash of attributes' do
+      expect(hashtag.to_hash).to eq(expected_hash)
+    end
+  end
+
   describe '.save' do
     let(:expected_query) { "INSERT INTO hashtags(text) VALUES ('#{hashtag_text}')" }
 

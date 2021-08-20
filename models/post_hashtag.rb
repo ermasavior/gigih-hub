@@ -8,6 +8,12 @@ class PostHashtag < Model
     @hashtag = hashtag
   end
 
+  def to_hash
+    {
+      post: post.to_hash, hashtag: hashtag.to_hash
+    }
+  end
+
   def save
     return false if @post.nil? || @hashtag.nil?
     return false if @post.id.nil? || @hashtag.id.nil?

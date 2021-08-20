@@ -48,15 +48,29 @@ RSpec.describe 'Post' do
     end
   end
 
+  describe '.to_hash' do
+    let(:post) { Post.new(user: user, text: text) }
+    let(:expected_hash) do
+      {
+        id: post.id, created_at: post.created_at, text: post.text, user: post.user.to_hash,
+        parent_post_id: post.parent_post_id, hashtags: post.hashtags.map(&:to_hash)
+      }
+    end
+
+    it 'returns hash of attributes' do
+      expect(post.to_hash).to eq(expected_hash)
+    end
+  end
+
   describe '.save' do
     context 'when params are valid' do
-      let(:parent_post_id) { nil }
+      let(:parent_post_id_query) { 'NULL' }
       let(:created_at) { '2021-08-20 23:23:12' }
       let(:time_now) { double }
       let(:expected_query) do
         "
       INSERT INTO posts(text, user_id, parent_post_id, created_at)
-      VALUES ('#{text}',#{user.id},#{parent_post_id},'#{created_at}')
+      VALUES ('#{text}',#{user.id},#{parent_post_id_query},'#{created_at}')
     "
       end
       let(:hashtag_texts) { ['hello'] }

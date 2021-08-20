@@ -8,6 +8,12 @@ class Hashtag < Model
     @text = text
   end
 
+  def to_hash
+    {
+      id: @id, text: @text
+    }
+  end
+
   def save
     return false if @text.nil?
 
