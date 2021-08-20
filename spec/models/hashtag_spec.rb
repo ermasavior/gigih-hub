@@ -182,4 +182,49 @@ RSpec.describe 'Hashtag' do
       end
     end
   end
+
+  describe '.find_trendings' do
+    let(:user) do
+      user = User.new(username: "fira", email: "lololo@gmail.com", bio: nil)
+      user.save
+      user
+    end
+    let(:expected_hashtags) {
+      ['#gigih1', '#semangat2', '#halo3', '#oke4', '#santai5']
+    }
+
+    before do
+      post = Post.new(user: user, text: 'Ayo kita #gigih1')
+      post.save
+      @first_post_id = post.id
+      Post.new(user: user, text: 'Kapan kelas #gigih1 mulai?').save
+      Post.new(user: user, text: 'Ayo #GiGih1').save
+      Post.new(user: user, text: 'Kapan kita #gigih1').save
+      Post.new(user: user, text: '#Semangat2 ya kita').save
+      Post.new(user: user, text: '#SeMangat2 hore').save
+      Post.new(user: user, text: 'loh #SeMangat2 kakak').save
+      Post.new(user: user, text: '#halo3 kakak').save
+      Post.new(user: user, text: 'Kita suka #halo3').save
+      Post.new(user: user, text: 'Yey #oke4').save
+      Post.new(user: user, text: 'Mari kita #santai5').save
+    end
+
+    it 'returns five trending hashtags' do
+      hashtags = Hashtag.find_trendings
+      hashtags.zip(expected_hashtags).each do |hashtag, expected_hashtag|
+        expect(hashtag.text).to eq(expected_hashtag)
+      end
+    end
+
+    after do
+      PostHashtag.client.query("DELETE FROM post_hashtags WHERE post_id >= '#{@first_post_id}'")
+      Post.client.query("DELETE FROM posts WHERE id >= '#{@first_post_id}'")
+
+      expected_hashtags.each do |hashtag|
+        Hashtag.client.query("DELETE FROM hashtags WHERE text = '#{hashtag}'")
+      end
+
+      User.client.query("DELETE FROM users WHERE username = '#{user.username}' AND email = '#{user.email}'")
+    end
+  end
 end

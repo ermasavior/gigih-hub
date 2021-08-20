@@ -40,4 +40,7 @@ class Hashtag < Model
 
     Hashtag.new(hashtag_result['id'], text: hashtag_result['text'])
   end
+
+  def self.find_trendings
+  end
 end
