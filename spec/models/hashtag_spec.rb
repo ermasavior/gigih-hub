@@ -189,24 +189,23 @@ RSpec.describe 'Hashtag' do
       user.save
       user
     end
+    let(:post_texts) {
+      [
+        'Ayo kita #gigih1', 'Kapan kelas #gigih1 mulai?', 'Ayo #GiGih1',
+        'Kapan kita #gigih1 ?', '#Semangat2 ya kita', '#SeMangat2 hore',
+        'loh #SeMangat2 kakak', '#halo3 kakak', 'Kita suka #halo3',
+        'Yey #oke4', 'Mari kita #santai5'
+      ]
+    }
     let(:expected_hashtags) {
       ['#gigih1', '#semangat2', '#halo3', '#oke4', '#santai5']
     }
 
     before do
-      post = Post.new(user: user, text: 'Ayo kita #gigih1')
-      post.save
-      @first_post_id = post.id
-      Post.new(user: user, text: 'Kapan kelas #gigih1 mulai?').save
-      Post.new(user: user, text: 'Ayo #GiGih1').save
-      Post.new(user: user, text: 'Kapan kita #gigih1').save
-      Post.new(user: user, text: '#Semangat2 ya kita').save
-      Post.new(user: user, text: '#SeMangat2 hore').save
-      Post.new(user: user, text: 'loh #SeMangat2 kakak').save
-      Post.new(user: user, text: '#halo3 kakak').save
-      Post.new(user: user, text: 'Kita suka #halo3').save
-      Post.new(user: user, text: 'Yey #oke4').save
-      Post.new(user: user, text: 'Mari kita #santai5').save
+      controller = PostController.new
+      post_texts.each_with_index do |post_text, idx|
+        controller.create('user_id'=> user.id, 'text'=> post_text)
+      end
     end
 
     it 'returns five trending hashtags' do
@@ -217,8 +216,11 @@ RSpec.describe 'Hashtag' do
     end
 
     after do
-      PostHashtag.client.query("DELETE FROM post_hashtags WHERE post_id >= '#{@first_post_id}'")
-      Post.client.query("DELETE FROM posts WHERE id >= '#{@first_post_id}'")
+      result = Post.client.query("SELECT id FROM posts WHERE user_id='#{user.id}' and text='#{post_texts[0]}'")
+      first_post_id = result.first['id']
+
+      PostHashtag.client.query("DELETE FROM post_hashtags WHERE post_id >= '#{first_post_id}'")
+      Post.client.query("DELETE FROM posts WHERE id >= '#{first_post_id}'")
 
       expected_hashtags.each do |hashtag|
         Hashtag.client.query("DELETE FROM hashtags WHERE text = '#{hashtag}'")
