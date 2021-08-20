@@ -32,7 +32,9 @@ RSpec.describe 'Post' do
     context 'when params are valid' do
       let(:created_at) { '2021-08-20 23:23:12' }
       let(:time_now) { double }
-      let(:expected_query) { "INSERT INTO posts(text, user_id, created_at) VALUES ('#{text}','#{user.id}','#{created_at}')" }
+      let(:expected_query) do
+        "INSERT INTO posts(text, user_id, created_at) VALUES ('#{text}','#{user.id}','#{created_at}')"
+      end
       let(:hashtag_texts) { ['hello'] }
       let(:hashtags) do
         hashtag_texts.map { |tag| Hashtag.new(text: tag) }
@@ -42,10 +44,10 @@ RSpec.describe 'Post' do
       before(:each) do
         allow(Hashtag).to receive(:extract_hashtags).with(text).and_return(hashtags)
         allow(Post.client).to receive(:last_id).and_return(post_id)
-        
+
         allow(Time).to receive(:now).and_return(time_now)
         allow(time_now).to receive(:strftime).with('%Y-%m-%d %H:%M:%S')
-          .and_return(created_at)
+                                             .and_return(created_at)
       end
 
       it 'triggers insert new post query' do
