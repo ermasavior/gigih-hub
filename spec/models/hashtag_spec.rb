@@ -192,9 +192,10 @@ RSpec.describe 'Hashtag' do
     let(:post_texts) {
       [
         'Ayo kita #gigih1', 'Kapan kelas #gigih1 mulai?', 'Ayo #GiGih1',
-        'Kapan kita #gigih1 ?', '#Semangat2 ya kita', '#SeMangat2 hore',
-        'loh #SeMangat2 kakak', '#halo3 kakak', 'Kita suka #halo3',
-        'Yey #oke4', 'Mari kita #santai5'
+        'Kapan kita #gigih1 ?', '#gigih1 itu baik', '#Semangat2 ya kita',
+        '#SeMangat2 hore', 'loh #SeMangat2 kakak', 'Yang penting #semangat2',
+        '#halo3 kakak', 'Kita suka #halo3', '#halo3 bandung', 'Yey #oke4',
+        '#oke4 kak kita siap', 'Mari kita #santai5'
       ]
     }
     let(:expected_hashtags) {
