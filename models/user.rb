@@ -14,6 +14,7 @@ class User < Model
     return false if @username.nil? or @email.nil?
 
     User.client.query("INSERT INTO users(username, email, bio) VALUES ('#{username}','#{email}','#{bio}')")
+    @id = User.client.last_id
     return true
   end
 
