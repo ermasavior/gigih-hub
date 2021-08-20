@@ -14,7 +14,7 @@ end
 
 post '/api/posts' do
   controller = PostController.new
-  controller.create(params)
+  controller.create_post(params)
 end
 
 get '/api/hashtags/trending' do

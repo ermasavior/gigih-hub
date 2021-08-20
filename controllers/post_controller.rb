@@ -3,7 +3,7 @@ require_relative '../models/post'
 require_relative '../models/post_hashtag'
 
 class PostController
-  def create(params)
+  def create_post(params)
     user = User.find_by_id(params['user_id'])
     post = Post.new(user: user, text: params['text'])
     save_success = post.save

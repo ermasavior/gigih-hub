@@ -26,7 +26,7 @@ RSpec.describe 'PostController' do
       end
 
       controller = PostController.new
-      controller.create(params)
+      controller.create_post(params)
     end
 
     context 'check params' do
@@ -51,7 +51,7 @@ RSpec.describe 'PostController' do
           allow(post).to receive(:save).and_return(true)
 
           controller = PostController.new
-          response = controller.create(params)
+          response = controller.create_post(params)
 
           expect(response).to eq(expected_response)
         end
@@ -64,7 +64,7 @@ RSpec.describe 'PostController' do
           allow(post).to receive(:save).and_return(false)
 
           controller = PostController.new
-          response = controller.create(params)
+          response = controller.create_post(params)
 
           expect(response).to eq(expected_response)
         end
