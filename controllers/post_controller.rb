@@ -14,6 +14,7 @@ class PostController
     end
 
     return { status: 200 } if save_success
+
     { status: 400 }
   end
 end

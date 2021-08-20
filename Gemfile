@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
+git_source(:github) { |repo_name| "https://github.com/ermasavior/#{repo_name}" }
 
-gem "sinatra"
-gem "mysql2"
-gem "rspec"
-gem "simplecov"
+gem 'mysql2'
+gem 'rspec'
+gem 'rubocop'
+gem 'simplecov'
+gem 'sinatra'

@@ -3,7 +3,7 @@ require_relative '../models/model'
 class Hashtag < Model
   attr_reader :id, :text
 
-  def initialize(id=nil, text:)
+  def initialize(id = nil, text:)
     @id = id
     @text = text
   end
@@ -41,6 +41,7 @@ class Hashtag < Model
     Hashtag.new(hashtag_result['id'], text: hashtag_result['text'])
   end
 
+  # rubocop:disable Metrics/MethodLength
   def self.find_trendings
     results = Hashtag.client.query("
       SELECT hashtags.id, hashtags.text, COUNT(*) AS hashtag_count
@@ -52,10 +53,11 @@ class Hashtag < Model
       LIMIT 5
     ")
 
-    hashtags = Array.new
+    hashtags = []
     results.each do |result|
       hashtags << Hashtag.new(result['id'], text: result['text'])
     end
     hashtags
   end
+  # rubocop:enable Metrics/MethodLength
 end

@@ -3,7 +3,7 @@ require_relative '../models/model'
 class User < Model
   attr_accessor :id, :username, :email, :bio
 
-  def initialize(id=nil, username:, email:, bio:)
+  def initialize(id = nil, username:, email:, bio:)
     @id = id
     @username = username
     @email = email
@@ -11,19 +11,20 @@ class User < Model
   end
 
   def save
-    return false if @username.nil? or @email.nil?
+    return false if @username.nil? || @email.nil?
 
     User.client.query("INSERT INTO users(username, email, bio) VALUES ('#{username}','#{email}','#{bio}')")
     @id = User.client.last_id
-    return true
+    true
   end
 
   def self.find_by_id(id)
     result = User.client.query("SELECT * FROM users WHERE id='#{id}'").first
 
     return nil if result.nil?
+
     User.new(
-      result["id"], username: result["username"], email: result["email"], bio: result["bio"]
+      result['id'], username: result['username'], email: result['email'], bio: result['bio']
     )
   end
 end

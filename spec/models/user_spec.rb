@@ -1,9 +1,9 @@
 require_relative '../../models/user'
 
 RSpec.describe 'User' do
-  let(:username) { "erma" }
-  let(:email) { "erma@test.com" }
-  let(:bio) { "Simple." }
+  let(:username) { 'erma' }
+  let(:email) { 'erma@test.com' }
+  let(:bio) { 'Simple.' }
 
   describe 'initialize' do
     it 'creates new user' do

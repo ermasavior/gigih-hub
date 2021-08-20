@@ -34,6 +34,7 @@ These libraries are bundled in a `Gemfile`.
 2. Mysql2, for database connector
 3. RSpec, for unit test
 4. SimpleCov, for test coverage
+5. Rubocop, for code linter, based on Ruby Guide Style
 
 ## How to Run
 (TBD)
