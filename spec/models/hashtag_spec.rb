@@ -209,7 +209,7 @@ RSpec.describe 'Hashtag' do
       expect(Hashtag.client).to receive(:query).with(expected_query).once
                                                .and_return(expected_query_result)
 
-      hashtags = Hashtag.find_trendings
+      Hashtag.find_trendings
     end
 
     it 'returns five trending hashtags' do
