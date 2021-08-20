@@ -9,7 +9,7 @@ RSpec.describe 'HashtagController' do
         Hashtag.new(text: '#gigih3')
       ]
     end
-    let(:data) { hashtags.map { |hashtag| hashtag.to_hash } }
+    let(:data) { hashtags.map(&:to_hash) }
     let(:expected_response) do
       { status: 200, data: data }
     end
