@@ -3,28 +3,19 @@ require_relative '../../controllers/post_controller'
 RSpec.describe 'PostController' do
   let(:user) { User.new(1, username: 'erma', email: 'erma@test.com', bio: 'Simple.') }
   let(:text) { 'Lorem ipsum dolor sit amet.' }
-
   let(:post) { double }
-  let(:hashtags) { [double] }
-  let(:post_hashtag) { double }
   let(:expected_response) { { status: status } }
 
   describe '.create_post' do
     let(:params) { { 'user_id' => user.id, 'text' => text } }
 
-    it 'calls user, post, hashtag, and post_hashtag with params' do
+    it 'invokes User and Post class' do
       expect(User).to receive(:find_by_id).with(user.id).and_return(user)
       expect(Post).to receive(:new).with(text: text, user: user)
                                    .and_return(post)
-      expect(post).to receive(:save).and_return(true)
 
-      expect(post).to receive(:hashtags).and_return(hashtags)
-      hashtags.each do |hashtag|
-        expect(hashtag).to receive(:save)
-        expect(PostHashtag).to receive(:new).with(post: post, hashtag: hashtag)
-                                            .and_return(post_hashtag)
-        expect(post_hashtag).to receive(:save)
-      end
+      expect(post).to receive(:save).and_return(true)
+      expect(post).to receive(:save_hashtags)
 
       controller = PostController.new
       controller.create_post(params)
@@ -35,14 +26,7 @@ RSpec.describe 'PostController' do
         allow(User).to receive(:find_by_id).with(user.id).and_return(user)
         allow(Post).to receive(:new).with(text: text, user: user)
                                     .and_return(post)
-        allow(post).to receive(:hashtags).and_return(hashtags)
-
-        hashtags.each do |hashtag|
-          allow(hashtag).to receive(:save)
-          allow(PostHashtag).to receive(:new).with(post: post, hashtag: hashtag)
-                                             .and_return(post_hashtag)
-          allow(post_hashtag).to receive(:save)
-        end
+        allow(post).to receive(:save_hashtags)
       end
 
       context 'when params are valid' do
@@ -77,19 +61,13 @@ RSpec.describe 'PostController' do
     let(:parent_post_id) { 1 }
     let(:params) { { 'user_id' => user.id, 'parent_post_id' => parent_post_id, 'text' => text } }
 
-    it 'calls user, post, hashtag, and post_hashtag with params' do
+    it 'invokes user and post classes' do
       expect(User).to receive(:find_by_id).with(user.id).and_return(user)
       expect(Post).to receive(:new).with(nil, parent_post_id, text: text, user: user)
                                    .and_return(post)
-      expect(post).to receive(:save).and_return(true)
 
-      expect(post).to receive(:hashtags).and_return(hashtags)
-      hashtags.each do |hashtag|
-        expect(hashtag).to receive(:save)
-        expect(PostHashtag).to receive(:new).with(post: post, hashtag: hashtag)
-                                            .and_return(post_hashtag)
-        expect(post_hashtag).to receive(:save)
-      end
+      expect(post).to receive(:save).and_return(true)
+      expect(post).to receive(:save_hashtags)
 
       controller = PostController.new
       controller.create_comment(params)
@@ -100,14 +78,7 @@ RSpec.describe 'PostController' do
         allow(User).to receive(:find_by_id).with(user.id).and_return(user)
         allow(Post).to receive(:new).with(nil, parent_post_id, text: text, user: user)
                                     .and_return(post)
-        allow(post).to receive(:hashtags).and_return(hashtags)
-
-        hashtags.each do |hashtag|
-          allow(hashtag).to receive(:save)
-          allow(PostHashtag).to receive(:new).with(post: post, hashtag: hashtag)
-                                             .and_return(post_hashtag)
-          allow(post_hashtag).to receive(:save)
-        end
+        allow(post).to receive(:save_hashtags)
       end
 
       context 'when params are valid' do

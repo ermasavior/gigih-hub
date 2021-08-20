@@ -6,14 +6,11 @@ class PostController
   def create_post(params)
     user = User.find_by_id(params['user_id'])
     post = Post.new(user: user, text: params['text'])
-    save_success = post.save
 
+    save_success = post.save
     return { status: 400 } unless save_success
 
-    post.hashtags.each do |hashtag|
-      hashtag.save
-      PostHashtag.new(post: post, hashtag: hashtag).save
-    end
+    post.save_hashtags
 
     { status: 200 }
   end
@@ -26,14 +23,11 @@ class PostController
     post = Post.new(
       nil, parent_post_id, user: user, text: params['text']
     )
-    save_success = post.save
 
+    save_success = post.save
     return { status: 400 } unless save_success
 
-    post.hashtags.each do |hashtag|
-      hashtag.save
-      PostHashtag.new(post: post, hashtag: hashtag).save
-    end
+    post.save_hashtags
 
     { status: 200 }
   end
