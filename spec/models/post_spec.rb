@@ -3,13 +3,15 @@ require_relative '../../models/post'
 RSpec.describe 'Post' do
   let(:user) { User.new(1, username: 'erma', email: 'erma@test.com', bio: 'Simple.') }
   let(:text) { 'Hello, world! #hello' }
+  let(:parent_post_id) { 1 }
 
   describe 'initialize' do
     it 'creates new user' do
-      post = Post.new(text: text, user: user)
+      post = Post.new(nil, parent_post_id, text: text, user: user)
 
       expect(post.text).to eq(text)
       expect(post.user).to eq(user)
+      expect(post.parent_post_id).to eq(parent_post_id)
     end
 
     context 'process hashtag' do
@@ -48,10 +50,14 @@ RSpec.describe 'Post' do
 
   describe '.save' do
     context 'when params are valid' do
+      let(:parent_post_id) { nil }
       let(:created_at) { '2021-08-20 23:23:12' }
       let(:time_now) { double }
       let(:expected_query) do
-        "INSERT INTO posts(text, user_id, created_at) VALUES ('#{text}','#{user.id}','#{created_at}')"
+        "
+      INSERT INTO posts(text, user_id, parent_post_id, created_at)
+      VALUES ('#{text}',#{user.id},#{parent_post_id},'#{created_at}')
+    "
       end
       let(:hashtag_texts) { ['hello'] }
       let(:hashtags) do
