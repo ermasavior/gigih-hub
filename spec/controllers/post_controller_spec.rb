@@ -64,7 +64,7 @@ RSpec.describe 'PostController' do
 
   describe '.create_comment' do
     let(:parent_post_id) { 1 }
-    let(:params) { { 'user_id' => user.id, 'parent_post_id' => parent_post_id, 'text' => text } }
+    let(:params) { { 'user_id' => user.id, 'id' => parent_post_id, 'text' => text } }
 
     it 'invokes user and post classes' do
       expect(User).to receive(:find_by_id).with(user.id).and_return(user)

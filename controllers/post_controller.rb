@@ -16,7 +16,7 @@ class PostController
   end
 
   def create_comment(params)
-    parent_post_id = params['parent_post_id']
+    parent_post_id = params['id']
     return { status: 400, data: nil } if parent_post_id.nil? || parent_post_id == ''
 
     user = User.find_by_id(params['user_id'])
