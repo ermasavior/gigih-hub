@@ -15,7 +15,7 @@ RSpec.describe 'PostController' do
       expect(User).to receive(:find_by_id).with(user.id).and_return(user)
       expect(Post).to receive(:new).with(text: text, user: user)
                                    .and_return(post)
-      expect(post).to receive(:save)
+      expect(post).to receive(:save).and_return(true)
 
       expect(post).to receive(:hashtags).and_return(hashtags)
       hashtags.each do |hashtag|

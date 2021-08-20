@@ -8,13 +8,13 @@ class PostController
     post = Post.new(user: user, text: params['text'])
     save_success = post.save
 
+    return { status: 400 } unless save_success
+
     post.hashtags.each do |hashtag|
       hashtag.save
       PostHashtag.new(post: post, hashtag: hashtag).save
     end
 
-    return { status: 200 } if save_success
-
-    { status: 400 }
+    { status: 200 }
   end
 end
