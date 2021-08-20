@@ -184,50 +184,42 @@ RSpec.describe 'Hashtag' do
   end
 
   describe '.find_trendings' do
-    let(:user) do
-      user = User.new(username: "fira", email: "lololo@gmail.com", bio: nil)
-      user.save
-      user
-    end
-    let(:post_texts) {
-      [
-        'Ayo kita #gigih1', 'Kapan kelas #gigih1 mulai?', 'Ayo #GiGih1',
-        'Kapan kita #gigih1 ?', '#gigih1 itu baik', '#Semangat2 ya kita',
-        '#SeMangat2 hore', 'loh #SeMangat2 kakak', 'Yang penting #semangat2',
-        '#halo3 kakak', 'Kita suka #halo3', '#halo3 bandung', 'Yey #oke4',
-        '#oke4 kak kita siap', 'Mari kita #santai5'
-      ]
-    }
-    let(:expected_hashtags) {
+    let(:trending_hashtag_texts) do
       ['#gigih1', '#semangat2', '#halo3', '#oke4', '#santai5']
-    }
-
-    before do
-      controller = PostController.new
-      post_texts.each_with_index do |post_text, idx|
-        controller.create('user_id'=> user.id, 'text'=> post_text)
+    end
+    let(:expected_query) do
+    "
+      SELECT hashtags.id, hashtags.text, COUNT(*) AS hashtag_count
+      FROM hashtags
+      INNER JOIN post_hashtags ON hashtags.id = post_hashtags.hashtag_id
+      INNER JOIN posts ON posts.id = post_hashtags.post_id
+      GROUP BY hashtags.id
+      ORDER BY COUNT(*) DESC
+      LIMIT 5
+    "
+    end
+    let(:expected_query_result) do
+      idx = 0
+      trending_hashtag_texts.map do |hashtag_text|
+        { 'id' => idx + 1, 'text' => hashtag_text }
       end
+    end
+
+    it 'triggers query to get top five hashtags' do
+      expect(Hashtag.client).to receive(:query).with(expected_query).once
+        .and_return(expected_query_result)
+
+      hashtags = Hashtag.find_trendings
     end
 
     it 'returns five trending hashtags' do
+      allow(Hashtag.client).to receive(:query).with(expected_query).once
+        .and_return(expected_query_result)
+
       hashtags = Hashtag.find_trendings
-      hashtags.zip(expected_hashtags).each do |hashtag, expected_hashtag|
-        expect(hashtag.text).to eq(expected_hashtag)
+      hashtags.zip(trending_hashtag_texts).each do |hashtag, hashtag_text|
+        expect(hashtag.text).to eq(hashtag_text)
       end
-    end
-
-    after do
-      result = Post.client.query("SELECT id FROM posts WHERE user_id='#{user.id}' and text='#{post_texts[0]}'")
-      first_post_id = result.first['id']
-
-      PostHashtag.client.query("DELETE FROM post_hashtags WHERE post_id >= '#{first_post_id}'")
-      Post.client.query("DELETE FROM posts WHERE id >= '#{first_post_id}'")
-
-      expected_hashtags.each do |hashtag|
-        Hashtag.client.query("DELETE FROM hashtags WHERE text = '#{hashtag}'")
-      end
-
-      User.client.query("DELETE FROM users WHERE username = '#{user.username}' AND email = '#{user.email}'")
     end
   end
 end
