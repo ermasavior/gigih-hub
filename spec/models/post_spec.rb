@@ -3,13 +3,15 @@ require_relative '../../models/post'
 RSpec.describe 'Post' do
   let(:user) { User.new(1, username: 'erma', email: 'erma@test.com', bio: 'Simple.') }
   let(:text) { 'Hello, world! #hello' }
+  let(:parent_post_id) { 1 }
 
   describe 'initialize' do
     it 'creates new user' do
-      post = Post.new(text: text, user: user)
+      post = Post.new(nil, parent_post_id, text: text, user: user)
 
       expect(post.text).to eq(text)
       expect(post.user).to eq(user)
+      expect(post.parent_post_id).to eq(parent_post_id)
     end
 
     context 'process hashtag' do
@@ -28,9 +30,49 @@ RSpec.describe 'Post' do
     end
   end
 
+  describe '.valid?' do
+    context 'when attributes are valid' do
+      it 'returns true' do
+        post = Post.new(text: text, user: user)
+        expect(post.valid?).to eq(true)
+      end
+    end
+
+    context 'when attributes are invalid' do
+      let(:text) { nil }
+
+      it 'returns false' do
+        post = Post.new(text: text, user: user)
+        expect(post.valid?).to eq(false)
+      end
+    end
+  end
+
+  describe '.to_hash' do
+    let(:post) { Post.new(user: user, text: text) }
+    let(:expected_hash) do
+      {
+        id: post.id, created_at: post.created_at, text: post.text, user: post.user.to_hash,
+        parent_post_id: post.parent_post_id, hashtags: post.hashtags.map(&:to_hash)
+      }
+    end
+
+    it 'returns hash of attributes' do
+      expect(post.to_hash).to eq(expected_hash)
+    end
+  end
+
   describe '.save' do
     context 'when params are valid' do
-      let(:expected_query) { "INSERT INTO posts(text, user_id) VALUES ('#{text}','#{user.id}')" }
+      let(:parent_post_id_query) { 'NULL' }
+      let(:created_at) { '2021-08-20 23:23:12' }
+      let(:time_now) { double }
+      let(:expected_query) do
+        "
+      INSERT INTO posts(text, user_id, parent_post_id, created_at)
+      VALUES ('#{text}',#{user.id},#{parent_post_id_query},'#{created_at}')
+    "
+      end
       let(:hashtag_texts) { ['hello'] }
       let(:hashtags) do
         hashtag_texts.map { |tag| Hashtag.new(text: tag) }
@@ -40,6 +82,10 @@ RSpec.describe 'Post' do
       before(:each) do
         allow(Hashtag).to receive(:extract_hashtags).with(text).and_return(hashtags)
         allow(Post.client).to receive(:last_id).and_return(post_id)
+
+        allow(Time).to receive(:now).and_return(time_now)
+        allow(time_now).to receive(:strftime).with('%Y-%m-%d %H:%M:%S')
+                                             .and_return(created_at)
       end
 
       it 'triggers insert new post query' do
@@ -56,12 +102,14 @@ RSpec.describe 'Post' do
         expect(post.save).to eq(true)
       end
 
-      it 'initialize id with last id' do
+      it 'initialize id and created_at' do
         allow(Post.client).to receive(:query).with(expected_query)
 
         post = Post.new(text: text, user: user)
         post.save
+
         expect(post.id).to eq(post_id)
+        expect(post.created_at).to eq(created_at)
       end
     end
 
@@ -85,6 +133,23 @@ RSpec.describe 'Post' do
         post = Post.new(text: text, user: user)
         expect(post.save).to eq(false)
       end
+    end
+  end
+
+  describe '.save_hashtags' do
+    let(:post_hashtag) { double }
+
+    it 'triggers Hashtag and PostHashtag save' do
+      post = Post.new(text: text, user: user)
+
+      post.hashtags.each do |hashtag|
+        expect(hashtag).to receive(:save).once
+        expect(PostHashtag).to receive(:new).with(post: post, hashtag: hashtag).once
+                                            .and_return(post_hashtag)
+        expect(post_hashtag).to receive(:save).once
+      end
+
+      post.save_hashtags
     end
   end
 end

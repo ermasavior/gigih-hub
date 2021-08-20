@@ -17,6 +17,15 @@ RSpec.describe 'User' do
     end
   end
 
+  describe '.to_hash' do
+    let(:user) { User.new(username: username, email: email, bio: bio) }
+    let(:expected_hash) { { id: user.id, username: user.username, email: user.email, bio: user.bio } }
+
+    it 'returns hash of attributes' do
+      expect(user.to_hash).to eq(expected_hash)
+    end
+  end
+
   describe '.save' do
     context 'when params are valid' do
       let(:expected_query) { "INSERT INTO users(username, email, bio) VALUES ('#{username}','#{email}','#{bio}')" }

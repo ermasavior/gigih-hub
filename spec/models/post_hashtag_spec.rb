@@ -19,6 +19,15 @@ RSpec.describe 'PostHashtag' do
     end
   end
 
+  describe '.to_hash' do
+    let(:post_hashtag) { PostHashtag.new(post: post, hashtag: hashtag) }
+    let(:expected_hash) { { post: post.to_hash, hashtag: hashtag.to_hash } }
+
+    it 'returns hash of attributes' do
+      expect(post_hashtag.to_hash).to eq(expected_hash)
+    end
+  end
+
   describe '.save' do
     context 'when params are valid' do
       let(:expected_query) { "INSERT INTO post_hashtags(post_id, hashtag_id) VALUES ('#{post.id}','#{hashtag.id}')" }

@@ -14,7 +14,12 @@ end
 
 post '/api/posts' do
   controller = PostController.new
-  controller.create(params)
+  controller.create_post(params)
+end
+
+post '/api/posts/:id/comment' do
+  controller = PostController.new
+  controller.create_comment(params)
 end
 
 get '/api/hashtags/trending' do

@@ -3,18 +3,32 @@ require_relative '../models/post'
 require_relative '../models/post_hashtag'
 
 class PostController
-  def create(params)
+  def create_post(params)
     user = User.find_by_id(params['user_id'])
     post = Post.new(user: user, text: params['text'])
+
     save_success = post.save
+    return { status: 400, data: nil } unless save_success
 
-    post.hashtags.each do |hashtag|
-      hashtag.save
-      PostHashtag.new(post: post, hashtag: hashtag).save
-    end
+    post.save_hashtags
 
-    return { status: 200 } if save_success
+    { status: 200, data: post.to_hash }
+  end
 
-    { status: 400 }
+  def create_comment(params)
+    parent_post_id = params['id']
+    return { status: 400, data: nil } if parent_post_id.nil? || parent_post_id == ''
+
+    user = User.find_by_id(params['user_id'])
+    post = Post.new(
+      nil, parent_post_id, user: user, text: params['text']
+    )
+
+    save_success = post.save
+    return { status: 400, data: nil } unless save_success
+
+    post.save_hashtags
+
+    { status: 200, data: post.to_hash }
   end
 end
