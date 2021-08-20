@@ -87,6 +87,7 @@ RSpec.describe 'Post' do
 
         post = Post.new(text: text, user: user)
         post.save
+
         expect(post.id).to eq(post_id)
         expect(post.created_at).to eq(created_at)
       end
