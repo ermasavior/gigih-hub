@@ -14,10 +14,14 @@ class Post < Model
   end
 
   def valid?
+    return false if @user.nil?
+    return false if @text.nil? || (@text.size > 1000)
+
+    true
   end
 
   def save
-    return false if @text.nil? || (@text.size > 1000) || @user.nil?
+    return false unless valid?
 
     current_time = Time.now.strftime('%Y-%m-%d %H:%M:%S')
     Post.client.query("INSERT INTO posts(text, user_id, created_at) VALUES ('#{text}','#{user.id}','#{current_time}')")
