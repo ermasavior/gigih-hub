@@ -35,4 +35,11 @@ class Post < Model
     @created_at = current_time
     true
   end
+
+  def save_hashtags
+    @hashtags.each do |hashtag|
+      hashtag.save
+      PostHashtag.new(post: self, hashtag: hashtag).save
+    end
+  end
 end

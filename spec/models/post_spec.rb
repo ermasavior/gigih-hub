@@ -121,4 +121,21 @@ RSpec.describe 'Post' do
       end
     end
   end
+
+  describe '.save_hashtags' do
+    let(:post_hashtag) { double }
+
+    it 'triggers Hashtag and PostHashtag save' do
+      post = Post.new(text: text, user: user)
+
+      post.hashtags.each do |hashtag|
+        expect(hashtag).to receive(:save).once
+        expect(PostHashtag).to receive(:new).with(post: post, hashtag: hashtag).once
+                                            .and_return(post_hashtag)
+        expect(post_hashtag).to receive(:save).once
+      end
+
+      post.save_hashtags
+    end
+  end
 end
