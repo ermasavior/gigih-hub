@@ -20,6 +20,11 @@ RSpec.describe 'User' do
   describe '.save' do
     context 'when params are valid' do
       let(:expected_query) { "INSERT INTO users(username, email, bio) VALUES ('#{username}','#{email}','#{bio}')" }
+      let(:user_last_id) { 1 }
+
+      before do
+        allow(User.client).to receive(:last_id).and_return(user_last_id)
+      end
 
       it 'triggers query to insert new user' do
         expect(User.client).to receive(:query).with(expected_query).once
@@ -37,6 +42,16 @@ RSpec.describe 'User' do
           username: username, email: email, bio: bio
         )
         expect(user.save).to eq(true)
+      end
+
+      it 'initialize user id' do
+        allow(User.client).to receive(:query).with(expected_query)
+
+        user = User.new(
+          username: username, email: email, bio: bio
+        )
+        user.save
+        expect(user.id).to eq(user_last_id)
       end
     end
 

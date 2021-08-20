@@ -1,4 +1,4 @@
-require_relative '../models/hashtag'
+require_relative '../models/model'
 
 class Hashtag < Model
   attr_reader :id, :text
@@ -39,5 +39,23 @@ class Hashtag < Model
     return nil if hashtag_result.nil?
 
     Hashtag.new(hashtag_result['id'], text: hashtag_result['text'])
+  end
+
+  def self.find_trendings
+    results = Hashtag.client.query("
+      SELECT hashtags.id, hashtags.text, COUNT(*) AS hashtag_count
+      FROM hashtags
+      INNER JOIN post_hashtags ON hashtags.id = post_hashtags.hashtag_id
+      INNER JOIN posts ON posts.id = post_hashtags.post_id
+      GROUP BY hashtags.id
+      ORDER BY COUNT(*) DESC
+      LIMIT 5
+    ")
+
+    hashtags = Array.new
+    results.each do |result|
+      hashtags << Hashtag.new(result['id'], text: result['text'])
+    end
+    hashtags
   end
 end

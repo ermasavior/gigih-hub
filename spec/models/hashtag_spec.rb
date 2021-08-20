@@ -182,4 +182,44 @@ RSpec.describe 'Hashtag' do
       end
     end
   end
+
+  describe '.find_trendings' do
+    let(:trending_hashtag_texts) do
+      ['#gigih1', '#semangat2', '#halo3', '#oke4', '#santai5']
+    end
+    let(:expected_query) do
+    "
+      SELECT hashtags.id, hashtags.text, COUNT(*) AS hashtag_count
+      FROM hashtags
+      INNER JOIN post_hashtags ON hashtags.id = post_hashtags.hashtag_id
+      INNER JOIN posts ON posts.id = post_hashtags.post_id
+      GROUP BY hashtags.id
+      ORDER BY COUNT(*) DESC
+      LIMIT 5
+    "
+    end
+    let(:expected_query_result) do
+      idx = 0
+      trending_hashtag_texts.map do |hashtag_text|
+        { 'id' => idx + 1, 'text' => hashtag_text }
+      end
+    end
+
+    it 'triggers query to get top five hashtags' do
+      expect(Hashtag.client).to receive(:query).with(expected_query).once
+        .and_return(expected_query_result)
+
+      hashtags = Hashtag.find_trendings
+    end
+
+    it 'returns five trending hashtags' do
+      allow(Hashtag.client).to receive(:query).with(expected_query).once
+        .and_return(expected_query_result)
+
+      hashtags = Hashtag.find_trendings
+      hashtags.zip(trending_hashtag_texts).each do |hashtag, hashtag_text|
+        expect(hashtag.text).to eq(hashtag_text)
+      end
+    end
+  end
 end
