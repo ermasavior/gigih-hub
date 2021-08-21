@@ -11,7 +11,7 @@ class AttachmentUploader
   end
 
   def upload
-    return nil if filename.nil? || filename == '' || tempfile.nil? || tempfile == '' || base_url.nil? || base_url == ''
+    return nil unless params_valid?
 
     file_path = BASE_FILE_PATH + filename
     File.open(file_path, 'wb') do |f|
@@ -19,5 +19,15 @@ class AttachmentUploader
     end
 
     base_url + BASE_FILE_SUBPATH + filename
+  end
+
+  private
+
+  def params_valid?
+    return false if filename.nil? || filename == ''
+    return false if tempfile.nil? || tempfile == ''
+    return false if base_url.nil? || base_url == ''
+
+    true
   end
 end
