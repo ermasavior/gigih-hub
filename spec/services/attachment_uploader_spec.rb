@@ -30,18 +30,21 @@ RSpec.describe 'AttachmentUploader' do
 
   describe '.upload' do
     let(:attachment_uploader) { AttachmentUploader.new(params) }
+    let(:secure_random_string) { 'base64' }
+    let(:secured_filename) { "#{secure_random_string}_#{filename}" }
 
     context 'when params are valid' do
-      let(:file_path) { AttachmentUploader::BASE_FILE_PATH + attachment_uploader.filename }
+      let(:file_path) { AttachmentUploader::BASE_FILE_PATH + secured_filename }
       let(:file_url) do
-        attachment_uploader.base_url + AttachmentUploader::BASE_FILE_SUBPATH + attachment_uploader.filename
+        attachment_uploader.base_url + AttachmentUploader::BASE_FILE_SUBPATH + secured_filename
       end
       let(:file_stub) { double }
       let(:tempfile_stub) { double }
 
       before do
-        allow(File).to receive(:exists?).with(AttachmentUploader::BASE_FILE_PATH)
-                                        .and_return(true)
+        allow(File).to receive(:exist?).with(AttachmentUploader::BASE_FILE_PATH)
+                                       .and_return(true)
+        allow(SecureRandom).to receive(:urlsafe_base64).and_return(secure_random_string)
       end
 
       it 'uploads file into file_path' do
