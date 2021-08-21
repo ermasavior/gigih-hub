@@ -152,4 +152,33 @@ RSpec.describe 'Post' do
       post.save_hashtags
     end
   end
+
+  describe '.find_by_hashtag' do
+    let(:created_at) { '2021-08-20 23:23:12' }
+    let(:hashtag) { Hashtag.new(text: "#Semangat") }
+    let(:expected_query) do
+      "SELECT posts.id, posts.text, posts.attachment, posts.user_id, posts.parent_post_id, posts.created_at
+       FROM posts INNER JOIN post_hashtags ON posts.id = post_hashtags.post_id
+       INNER JOIN hashtags ON hashtags.id = post_hashtags.hashtag_id
+       WHERE hashtags.text = #{hashtag.text}"
+    end
+    let(:expected_query_result) do
+      [ { 'id' => 1, 'text' => text, 'user_id': user.id } ]
+    end
+    let(:expected_posts) do
+      [ Post.new(1, created_at, user: user, text: text) ]
+    end
+
+    before do
+      allow(User).to receive(:find_by_id).with(user.id).and_return(user)
+    end
+
+    it 'triggers query to get posts by hashtag' do
+      expect(Post.client).to receive(:query).with(expected_query)
+        .and_return(expected_query_result)
+
+      posts = Post.find_by_hashtag(hashtag)
+      expect(posts).to eq(expected_posts)
+    end
+  end
 end

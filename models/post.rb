@@ -49,4 +49,7 @@ class Post < Model
       PostHashtag.new(post: self, hashtag: hashtag).save
     end
   end
+
+  def self.find_by_hashtag(hashtag)
+  end
 end
