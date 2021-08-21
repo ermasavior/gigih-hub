@@ -3,16 +3,16 @@ require_relative '../models/hashtag'
 require 'date'
 
 class Post < Model
-  attr_reader :id, :text, :created_at, :user, :attachment, :hashtags, :parent_post_id
+  attr_reader :id, :created_at, :text, :user, :attachment, :parent_post_id, :hashtags
 
-  def initialize(id = nil, parent_post_id = nil, created_at = nil, attachment = nil, text:, user:)
-    @id = id
-    @created_at = created_at
-    @text = text
-    @user = user
+  def initialize(params)
+    @id = params[:id]
+    @created_at = params[:created_at]
+    @text = params[:text]
+    @user = params[:user]
+    @attachment = params[:attachment]
+    @parent_post_id = params[:parent_post_id]
     @hashtags = Hashtag.extract_hashtags(@text)
-    @parent_post_id = parent_post_id
-    @attachment = attachment
   end
 
   def to_hash
@@ -63,9 +63,12 @@ class Post < Model
     posts = []
     results.each do |result|
       user = User.find_by_id(result['user_id'])
-      posts << Post.new(
-        result['id'], result['parent_post_id'], result['created_at'], user: user, text: result['text']
-      )
+
+      params = {
+        id: result['id'], created_at: result['created_at'], text: result['text'], user: user,
+        attachment: result['attachment'], parent_post_id: result['parent_post_id']
+      }
+      posts << Post.new(params)
     end
 
     posts
