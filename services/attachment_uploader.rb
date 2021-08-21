@@ -5,9 +5,9 @@ class AttachmentUploader
   BASE_FILE_PATH = './public/' + BASE_FILE_SUBPATH
 
   def initialize(params)
-    @filename = params['filename']
-    @tempfile = params['tempfile']
-    @base_url = params['base_url']
+    @filename = params['filename'] unless params.nil?
+    @tempfile = params['tempfile'] unless params.nil?
+    @base_url = params['base_url'] unless params.nil?
   end
 
   def upload

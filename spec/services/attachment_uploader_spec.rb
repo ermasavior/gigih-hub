@@ -7,11 +7,24 @@ RSpec.describe 'AttachmentUploader' do
   let(:params) { { 'filename' => filename, 'tempfile' => tempfile, 'base_url' => base_url } }
 
   describe 'initialize' do
-    it 'creates new AttachmentUploader object' do
-      attachment_uploader = AttachmentUploader.new(params)
+    context 'when params are valid' do
+      it 'creates new AttachmentUploader object' do
+        attachment_uploader = AttachmentUploader.new(params)
 
-      expect(attachment_uploader.filename).to eq(filename)
-      expect(attachment_uploader.tempfile).to eq(tempfile)
+        expect(attachment_uploader.filename).to eq(filename)
+        expect(attachment_uploader.tempfile).to eq(tempfile)
+      end
+    end
+
+    context 'when params are invalid' do
+      let(:params) { nil }
+
+      it 'initialize class with nil' do
+        attachment_uploader = AttachmentUploader.new(params)
+
+        expect(attachment_uploader.filename).to eq(nil)
+        expect(attachment_uploader.tempfile).to eq(nil)
+      end
     end
   end
 
