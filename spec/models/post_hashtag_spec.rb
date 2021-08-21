@@ -3,7 +3,14 @@ require_relative '../../models/post_hashtag'
 RSpec.describe 'PostHashtag' do
   let(:user) { User.new(1, username: 'cici', email: 'abc@gmail.com', bio: nil) }
   let(:text) { 'Assalamualaikum #cantik' }
-  let(:post) { Post.new(1, user: user, text: text) }
+  let(:post_id) { 1 }
+  let(:post_params) do
+    {
+      id: post_id, created_at: '2021-08-20 23:23:12', text: text, user: user,
+      attachment: nil, parent_post_id: nil
+    }
+  end
+  let(:post) { Post.new(post_params) }
   let(:hashtag) { Hashtag.new(1, text: '#cantik') }
 
   before(:each) do
@@ -48,7 +55,8 @@ RSpec.describe 'PostHashtag' do
     end
 
     context 'when params are invalid' do
-      let(:post) { [Post.new(nil, user: user, text: text), nil].sample }
+      let(:post_id) { nil }
+      let(:post) { [Post.new(post_params), nil].sample }
       let(:hashtag) { [Hashtag.new(nil, text: '#cantik'), nil].sample }
 
       it 'does not trigger insert new posthashtag' do

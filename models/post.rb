@@ -3,21 +3,23 @@ require_relative '../models/hashtag'
 require 'date'
 
 class Post < Model
-  attr_reader :id, :text, :created_at, :user, :hashtags, :parent_post_id
+  attr_reader :id, :created_at, :text, :user, :attachment, :parent_post_id, :hashtags
 
-  def initialize(id = nil, parent_post_id = nil, created_at = nil, text:, user:)
-    @id = id
-    @created_at = created_at
-    @text = text
-    @user = user
+  def initialize(params)
+    @id = params[:id]
+    @created_at = params[:created_at]
+    @text = params[:text]
+    @user = params[:user]
+    @attachment = params[:attachment]
+    @parent_post_id = params[:parent_post_id]
     @hashtags = Hashtag.extract_hashtags(@text)
-    @parent_post_id = parent_post_id
   end
 
   def to_hash
     {
       id: id, created_at: created_at, text: text, user: user.to_hash,
-      parent_post_id: parent_post_id, hashtags: hashtags.map(&:to_hash)
+      parent_post_id: parent_post_id, hashtags: hashtags.map(&:to_hash),
+      attachment: attachment
     }
   end
 
@@ -31,12 +33,9 @@ class Post < Model
   def save
     return false unless valid?
 
-    parent_post_id = 'NULL' if parent_post_id.nil? || parent_post_id == ''
     current_time = Time.now.strftime('%Y-%m-%d %H:%M:%S')
-    Post.client.query("
-      INSERT INTO posts(text, user_id, parent_post_id, created_at)
-      VALUES ('#{text}',#{user.id},#{parent_post_id},'#{current_time}')
-    ")
+    query = get_insert_query(current_time)
+    Post.client.query(query)
 
     @id = Post.client.last_id
     @created_at = current_time
@@ -64,12 +63,36 @@ class Post < Model
     posts = []
     results.each do |result|
       user = User.find_by_id(result['user_id'])
-      posts << Post.new(
-        result['id'], result['parent_post_id'], result['created_at'], user: user, text: result['text']
-      )
+
+      params = {
+        id: result['id'], created_at: result['created_at'], text: result['text'], user: user,
+        attachment: result['attachment'], parent_post_id: result['parent_post_id']
+      }
+      posts << Post.new(params)
     end
 
     posts
   end
   # rubocop:enable Metrics/MethodLength
+
+  private
+
+  def get_insert_query(current_time)
+    attachment = "'#{@attachment}'"
+    attachment = 'NULL' if attachment_valid?
+
+    parent_post_id = "'#{@parent_post_id}'"
+    parent_post_id = 'NULL' if parent_post_id_valid?
+
+    "INSERT INTO posts(text, user_id, created_at, parent_post_id, attachment)
+     VALUES ('#{@text}','#{@user.id}','#{current_time}',#{parent_post_id},#{attachment})"
+  end
+
+  def attachment_valid?
+    @attachment.nil? || @attachment == ''
+  end
+
+  def parent_post_id_valid?
+    @parent_post_id.nil? || @parent_post_id == ''
+  end
 end

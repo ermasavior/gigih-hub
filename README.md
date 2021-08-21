@@ -9,7 +9,7 @@ The Gigih Hub Social Media contains six functional requirements.
 - [x] Saves user details (username, email, bio)
 - [x] Lets user make a new post with hashtag
 - [x] Lets user comment in a post with hashtag
-- [ ] Lets user attach media (jpg, png, mp4) in a post or comment
+- [x] Lets user attach media (jpg, png, mp4) in a post or comment
 - [x] Lets user get posts with a hashtag
 - [x] Shows 5 trending hashtags
 
