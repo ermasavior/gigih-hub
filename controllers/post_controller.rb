@@ -7,7 +7,7 @@ class PostController
   def create_post(params)
     user = User.find_by_id(params['user_id'])
 
-    attachment_uploader = AttachmentUploader.new(params[:attachment])
+    attachment_uploader = AttachmentUploader.new(params['attachment'])
     attachment_filepath = attachment_uploader.upload
 
     params = {
@@ -28,8 +28,12 @@ class PostController
     return { status: 400, data: nil } if parent_post_id.nil? || parent_post_id == ''
 
     user = User.find_by_id(params['user_id'])
+
+    attachment_uploader = AttachmentUploader.new(params['attachment'])
+    attachment_filepath = attachment_uploader.upload
+
     params = {
-      text: params['text'], user: user, attachment: params['attachment'],
+      text: params['text'], user: user, attachment: attachment_filepath,
       parent_post_id: parent_post_id
     }
     post = Post.new(params)

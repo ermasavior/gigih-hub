@@ -3,20 +3,26 @@ require_relative '../../controllers/post_controller'
 RSpec.describe 'PostController' do
   let(:user) { User.new(1, username: 'erma', email: 'erma@test.com', bio: 'Simple.') }
   let(:text) { 'Lorem ipsum dolor sit amet.' }
-  let(:attachment) { 'localhost/path/to/media' }
   let(:post) { double }
   let(:post_hash) { double }
   let(:expected_response) { { status: status, data: data } }
 
+  let(:attachment_params) { { 'filename' => 'dummy.txt', 'base_url' => 'http://localhost/', 'tempfile' => double } }
+  let(:attachment_uploader) { double }
+  let(:attachment_filepath) { 'http://localhost/storage/dummy.txt' }
+
   describe '.create_post' do
-    let(:params) { { 'user_id' => user.id, 'text' => text, 'attachment' => attachment } }
+    let(:params) { { 'user_id' => user.id, 'text' => text, 'attachment' => attachment_params } }
     let(:post_params) do
       {
-        text: text, user: user, attachment: attachment
+        text: text, user: user, attachment: attachment_filepath
       }
     end
 
-    it 'invokes User and Post class' do
+    it 'invokes AttachmentUploader, User and Post class' do
+      expect(AttachmentUploader).to receive(:new).with(attachment_params)
+                                                 .and_return(attachment_uploader)
+      expect(attachment_uploader).to receive(:upload).and_return(attachment_filepath)
       expect(User).to receive(:find_by_id).with(user.id).and_return(user)
       expect(Post).to receive(:new).with(post_params)
                                    .and_return(post)
@@ -31,6 +37,9 @@ RSpec.describe 'PostController' do
 
     context 'check params' do
       before do
+        allow(AttachmentUploader).to receive(:new).with(attachment_params)
+                                                  .and_return(attachment_uploader)
+        allow(attachment_uploader).to receive(:upload).and_return(attachment_filepath)
         allow(User).to receive(:find_by_id).with(user.id).and_return(user)
         allow(Post).to receive(:new).with(post_params)
                                     .and_return(post)
@@ -73,16 +82,19 @@ RSpec.describe 'PostController' do
     let(:params) do
       {
         'user_id' => user.id, 'id' => parent_post_id,
-        'text' => text, 'attachment' => attachment
+        'text' => text, 'attachment' => attachment_params
       }
     end
     let(:post_params) do
       {
-        text: text, user: user, attachment: attachment, parent_post_id: parent_post_id
+        text: text, user: user, attachment: attachment_filepath, parent_post_id: parent_post_id
       }
     end
 
-    it 'invokes user and post classes' do
+    it 'invokes AttachmentUploader service, User and Post classes' do
+      expect(AttachmentUploader).to receive(:new).with(attachment_params)
+                                                 .and_return(attachment_uploader)
+      expect(attachment_uploader).to receive(:upload).and_return(attachment_filepath)
       expect(User).to receive(:find_by_id).with(user.id).and_return(user)
       expect(Post).to receive(:new).with(post_params)
                                    .and_return(post)
@@ -97,6 +109,9 @@ RSpec.describe 'PostController' do
 
     context 'check params' do
       before do
+        allow(AttachmentUploader).to receive(:new).with(attachment_params)
+                                                  .and_return(attachment_uploader)
+        allow(attachment_uploader).to receive(:upload).and_return(attachment_filepath)
         allow(User).to receive(:find_by_id).with(user.id).and_return(user)
         allow(Post).to receive(:new).with(post_params)
                                     .and_return(post)
