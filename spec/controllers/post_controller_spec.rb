@@ -3,16 +3,22 @@ require_relative '../../controllers/post_controller'
 RSpec.describe 'PostController' do
   let(:user) { User.new(1, username: 'erma', email: 'erma@test.com', bio: 'Simple.') }
   let(:text) { 'Lorem ipsum dolor sit amet.' }
+  let(:attachment) { 'localhost/path/to/media' }
   let(:post) { double }
   let(:post_hash) { double }
   let(:expected_response) { { status: status, data: data } }
 
   describe '.create_post' do
-    let(:params) { { 'user_id' => user.id, 'text' => text } }
+    let(:params) { { 'user_id' => user.id, 'text' => text, 'attachment' => attachment } }
+    let(:post_params) do
+      {
+        text: text, user: user, attachment: attachment
+      }
+    end
 
     it 'invokes User and Post class' do
       expect(User).to receive(:find_by_id).with(user.id).and_return(user)
-      expect(Post).to receive(:new).with(text: text, user: user)
+      expect(Post).to receive(:new).with(post_params)
                                    .and_return(post)
 
       expect(post).to receive(:save).and_return(true)
@@ -26,7 +32,7 @@ RSpec.describe 'PostController' do
     context 'check params' do
       before do
         allow(User).to receive(:find_by_id).with(user.id).and_return(user)
-        allow(Post).to receive(:new).with(text: text, user: user)
+        allow(Post).to receive(:new).with(post_params)
                                     .and_return(post)
         allow(post).to receive(:save_hashtags)
         allow(post).to receive(:to_hash).and_return(post_hash)
@@ -64,11 +70,21 @@ RSpec.describe 'PostController' do
 
   describe '.create_comment' do
     let(:parent_post_id) { 1 }
-    let(:params) { { 'user_id' => user.id, 'id' => parent_post_id, 'text' => text } }
+    let(:params) do
+      {
+        'user_id' => user.id, 'id' => parent_post_id,
+        'text' => text, 'attachment' => attachment
+      }
+    end
+    let(:post_params) do
+      {
+        text: text, user: user, attachment: attachment, parent_post_id: parent_post_id
+      }
+    end
 
     it 'invokes user and post classes' do
       expect(User).to receive(:find_by_id).with(user.id).and_return(user)
-      expect(Post).to receive(:new).with(nil, parent_post_id, text: text, user: user)
+      expect(Post).to receive(:new).with(post_params)
                                    .and_return(post)
 
       expect(post).to receive(:save).and_return(true)
@@ -82,7 +98,7 @@ RSpec.describe 'PostController' do
     context 'check params' do
       before do
         allow(User).to receive(:find_by_id).with(user.id).and_return(user)
-        allow(Post).to receive(:new).with(nil, parent_post_id, text: text, user: user)
+        allow(Post).to receive(:new).with(post_params)
                                     .and_return(post)
         allow(post).to receive(:save_hashtags)
         allow(post).to receive(:to_hash).and_return(post_hash)

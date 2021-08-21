@@ -5,7 +5,11 @@ require_relative '../models/post_hashtag'
 class PostController
   def create_post(params)
     user = User.find_by_id(params['user_id'])
-    post = Post.new(user: user, text: params['text'])
+
+    params = {
+      text: params['text'], user: user, attachment: params['attachment']
+    }
+    post = Post.new(params)
 
     save_success = post.save
     return { status: 400, data: nil } unless save_success
@@ -20,9 +24,11 @@ class PostController
     return { status: 400, data: nil } if parent_post_id.nil? || parent_post_id == ''
 
     user = User.find_by_id(params['user_id'])
-    post = Post.new(
-      nil, parent_post_id, user: user, text: params['text']
-    )
+    params = {
+      text: params['text'], user: user, attachment: params['attachment'],
+      parent_post_id: parent_post_id
+    }
+    post = Post.new(params)
 
     save_success = post.save
     return { status: 400, data: nil } unless save_success
