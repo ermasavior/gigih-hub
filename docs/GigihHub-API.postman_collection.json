@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "cdd8292a-87d7-4768-a6af-bf6e7ae07245",
+		"name": "GigihHub Social Media API",
+		"description": "API for Simple Social Media",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add new user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "fira",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "fira@chaos.org",
+							"type": "text"
+						},
+						{
+							"key": "bio",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:4567/api/users",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "Hello #world #hehe",
+							"type": "text"
+						},
+						{
+							"key": "attachment",
+							"type": "file",
+							"src": "/E:/ERMA/Pictures/90066f39d4f54d7d827bf84bef40ae1a.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:4567/api/posts",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"api",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get trending hashtags",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "localhost:4567/api/hashtags/trending",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"api",
+						"hashtags",
+						"trending"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new comment in a post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "Hello juga #hehe",
+							"type": "text"
+						},
+						{
+							"key": "attachment",
+							"type": "file",
+							"src": "/E:/ERMA/Pictures/ERw9KMeUwAAYn0r.jfif"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:4567/api/posts/677/comment",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"api",
+						"posts",
+						"677",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get posts by hashtag",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4567/api/posts?hashtag_text=%23gigih1",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"api",
+						"posts"
+					],
+					"query": [
+						{
+							"key": "hashtag_text",
+							"value": "%23gigih1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
