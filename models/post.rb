@@ -50,6 +50,7 @@ class Post < Model
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def self.find_by_hashtag(hashtag)
     results = Post.client.query(
       "SELECT posts.id, posts.text, posts.attachment, posts.user_id, posts.parent_post_id, posts.created_at
@@ -58,7 +59,7 @@ class Post < Model
        WHERE hashtags.text = '#{hashtag.text}'"
     )
 
-    posts = Array.new
+    posts = []
     results.each do |result|
       user = User.find_by_id(result['user_id'])
       posts << Post.new(
@@ -68,4 +69,5 @@ class Post < Model
 
     posts
   end
+  # rubocop:enable Metrics/MethodLength
 end
