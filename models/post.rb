@@ -76,12 +76,20 @@ class Post < Model
 
   def get_insert_query(current_time)
     attachment = "'#{@attachment}'"
-    attachment = 'NULL' if @attachment.nil? || @attachment == ''
+    attachment = 'NULL' if attachment_valid?
 
     parent_post_id = "'#{@parent_post_id}'"
-    parent_post_id = 'NULL' if @parent_post_id.nil? || @parent_post_id == ''
+    parent_post_id = 'NULL' if parent_post_id_valid?
 
     "INSERT INTO posts(text, user_id, created_at, parent_post_id, attachment)
      VALUES ('#{@text}','#{@user.id}','#{current_time}',#{parent_post_id},#{attachment})"
+  end
+
+  def attachment_valid?
+    @attachment.nil? || @attachment == ''
+  end
+
+  def parent_post_id_valid?
+    @parent_post_id.nil? || @parent_post_id == ''
   end
 end
