@@ -14,7 +14,7 @@ The Gigih Hub Social Media contains six functional requirements.
 - [x] Shows 5 trending hashtags
 
 ## Database Schema
-![ER Diagram](ERD.png)
+![ER Diagram](/docs/ERD.png)
 
 There are four tables created in the database.
 
