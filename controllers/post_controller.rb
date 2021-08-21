@@ -7,12 +7,8 @@ class PostController
   def create_post(params)
     user = User.find_by_id(params['user_id'])
 
-    attachment_uploader = AttachmentUploader.new(params['attachment'])
-    attachment_filepath = attachment_uploader.upload
-
-    params = {
-      text: params['text'], user: user, attachment: attachment_filepath
-    }
+    params = { text: params['text'], user: user,
+               attachment: upload_attachment_filepath(params['attachment']) }
     post = Post.new(params)
 
     save_success = post.save
@@ -29,13 +25,8 @@ class PostController
 
     user = User.find_by_id(params['user_id'])
 
-    attachment_uploader = AttachmentUploader.new(params['attachment'])
-    attachment_filepath = attachment_uploader.upload
-
-    params = {
-      text: params['text'], user: user, attachment: attachment_filepath,
-      parent_post_id: parent_post_id
-    }
+    params = { text: params['text'], user: user, parent_post_id: parent_post_id,
+               attachment: upload_attachment_filepath(params['attachment']) }
     post = Post.new(params)
 
     save_success = post.save
@@ -57,5 +48,12 @@ class PostController
       status: 200,
       data: posts.map(&:to_hash)
     }
+  end
+
+  private
+
+  def upload_attachment_filepath(attachment_param)
+    attachment_uploader = AttachmentUploader.new(attachment_param)
+    attachment_uploader.upload
   end
 end
