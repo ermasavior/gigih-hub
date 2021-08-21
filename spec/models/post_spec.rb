@@ -4,6 +4,14 @@ RSpec.describe 'Post' do
   let(:user) { User.new(1, username: 'erma', email: 'erma@test.com', bio: 'Simple.') }
   let(:text) { 'Hello, world! #hello' }
   let(:parent_post_id) { 1 }
+  let(:query_with_attachment) do
+    "INSERT INTO posts(text, user_id, created_at, parent_post_id, attachment)
+     VALUES ('#{text}','#{user.id}','#{created_at}',NULL,'#{attachment}')"
+  end
+  let(:query_without_attachment) do
+    "INSERT INTO posts(text, user_id, created_at, parent_post_id, attachment)
+     VALUES ('#{text}','#{user.id}','#{created_at}',NULL,NULL)"
+  end
 
   describe 'initialize' do
     it 'creates new user' do
@@ -64,16 +72,11 @@ RSpec.describe 'Post' do
   end
 
   describe '.save' do
+    let(:expected_query) { query_without_attachment }
     context 'when params are valid' do
       let(:parent_post_id_query) { 'NULL' }
       let(:created_at) { '2021-08-20 23:23:12' }
       let(:time_now) { double }
-      let(:expected_query) do
-        "
-      INSERT INTO posts(text, user_id, parent_post_id, created_at)
-      VALUES ('#{text}',#{user.id},#{parent_post_id_query},'#{created_at}')
-    "
-      end
       let(:hashtag_texts) { ['hello'] }
       let(:hashtags) do
         hashtag_texts.map { |tag| Hashtag.new(text: tag) }
@@ -87,13 +90,6 @@ RSpec.describe 'Post' do
         allow(Time).to receive(:now).and_return(time_now)
         allow(time_now).to receive(:strftime).with('%Y-%m-%d %H:%M:%S')
                                              .and_return(created_at)
-      end
-
-      it 'triggers insert new post query' do
-        expect(Post.client).to receive(:query).with(expected_query).once
-
-        post = Post.new(text: text, user: user)
-        post.save
       end
 
       it 'returns true' do
@@ -111,6 +107,20 @@ RSpec.describe 'Post' do
 
         expect(post.id).to eq(post_id)
         expect(post.created_at).to eq(created_at)
+      end
+
+      context 'post triggers query' do
+        context 'when there is attachment' do
+          let(:attachment) { 'localhost/path/to/media' }
+          let(:expected_query) { query_with_attachment }
+
+          it 'triggers insert new post query with attachment' do
+            expect(Post.client).to receive(:query).with(expected_query).once
+
+            post = Post.new(nil, nil, nil, attachment, text: text, user: user)
+            post.save
+          end
+        end
       end
     end
 

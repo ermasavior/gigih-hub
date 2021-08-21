@@ -33,12 +33,9 @@ class Post < Model
   def save
     return false unless valid?
 
-    parent_post_id = 'NULL' if parent_post_id.nil? || parent_post_id == ''
     current_time = Time.now.strftime('%Y-%m-%d %H:%M:%S')
-    Post.client.query("
-      INSERT INTO posts(text, user_id, parent_post_id, created_at)
-      VALUES ('#{text}',#{user.id},#{parent_post_id},'#{current_time}')
-    ")
+    query = get_insert_query(current_time)
+    Post.client.query(query)
 
     @id = Post.client.last_id
     @created_at = current_time
@@ -74,4 +71,17 @@ class Post < Model
     posts
   end
   # rubocop:enable Metrics/MethodLength
+
+  private
+
+  def get_insert_query(current_time)
+    attachment = "'#{@attachment}'"
+    attachment = 'NULL' if @attachment.nil? || @attachment == ''
+
+    parent_post_id = "'#{@parent_post_id}'"
+    parent_post_id = 'NULL' if @parent_post_id.nil? || @parent_post_id == ''
+
+    "INSERT INTO posts(text, user_id, created_at, parent_post_id, attachment)
+     VALUES ('#{@text}','#{@user.id}','#{current_time}',#{parent_post_id},#{attachment})"
+  end
 end
