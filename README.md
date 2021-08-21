@@ -68,7 +68,7 @@ These libraries are bundled in a `Gemfile`.
 
         bundle exec rubocop
 
-2. To run test suites, execute rspec.
+2. To run test suites and test coverage, execute rspec.
 
         bundle exec rspec
 
