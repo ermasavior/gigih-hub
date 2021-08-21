@@ -7,13 +7,16 @@ RSpec.describe 'UserController' do
   let(:params) { { 'username' => username, 'email' => email, 'bio' => bio } }
 
   describe '.create' do
-    let(:user_stub) { double }
-    let(:expected_response) { { status: status } }
+    let(:user) { double }
+    let(:user_hash) { double }
+    let(:data) { user_hash }
+    let(:expected_response) { { status: status, data: data } }
 
     it 'calls user.save with params' do
       expect(User).to receive(:new).with(username: username, email: email, bio: bio)
-                                   .and_return(user_stub)
-      expect(user_stub).to receive(:save)
+                                   .and_return(user)
+      expect(user).to receive(:save).and_return(true)
+      expect(user).to receive(:to_hash).and_return(user_hash)
 
       controller = UserController.new
       controller.create(params)
@@ -22,14 +25,15 @@ RSpec.describe 'UserController' do
     context 'check params' do
       before do
         allow(User).to receive(:new).with(username: username, email: email, bio: bio)
-                                    .and_return(user_stub)
+                                    .and_return(user)
+        allow(user).to receive(:to_hash).and_return(user_hash)
       end
 
       context 'when params are valid' do
         let(:status) { 200 }
 
         it 'returns status 200' do
-          allow(user_stub).to receive(:save).and_return(true)
+          allow(user).to receive(:save).and_return(true)
 
           controller = UserController.new
           response = controller.create(params)
@@ -40,9 +44,10 @@ RSpec.describe 'UserController' do
 
       context 'when params are invalid' do
         let(:status) { 400 }
+        let(:data) { nil }
 
         it 'returns status 400' do
-          allow(user_stub).to receive(:save).and_return(false)
+          allow(user).to receive(:save).and_return(false)
 
           controller = UserController.new
           response = controller.create(params)

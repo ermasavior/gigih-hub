@@ -116,4 +116,50 @@ RSpec.describe 'PostController' do
       end
     end
   end
+
+  describe '.fetch_by_hashtag' do
+    context 'when params are valid' do
+      let(:hashtag_text) { '#gigih' }
+      let(:params) { { 'hashtag_text' => hashtag_text } }
+      let(:hashtag) { Hashtag.new(text: hashtag_text) }
+      let(:posts) do
+        [
+          Post.new(user: user, text: 'Mari #gigih'),
+          Post.new(user: user, text: 'Semangat #gigih'),
+          Post.new(user: user, text: 'Kelas #gigih')
+        ]
+      end
+      let(:data) { posts.map(&:to_hash) }
+      let(:expected_response) do
+        { status: 200, data: data }
+      end
+
+      before do
+        allow(Hashtag).to receive(:find_by_text).with(hashtag_text)
+                                                .and_return(hashtag)
+        allow(Post).to receive(:find_by_hashtag).with(hashtag)
+                                                .and_return(posts)
+      end
+
+      it 'returns expected response with status code 200' do
+        controller = PostController.new
+        response = controller.fetch_by_hashtag(params)
+        expect(response).to eq(expected_response)
+      end
+    end
+
+    context 'when params are invalid' do
+      let(:hashtag_text) { ['', nil].sample }
+      let(:params) { { 'hashtag_text' => hashtag_text } }
+      let(:expected_response) do
+        { status: 400, data: nil }
+      end
+
+      it 'returns expected response with status code 400' do
+        controller = PostController.new
+        response = controller.fetch_by_hashtag(params)
+        expect(response).to eq(expected_response)
+      end
+    end
+  end
 end

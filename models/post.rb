@@ -5,7 +5,7 @@ require 'date'
 class Post < Model
   attr_reader :id, :text, :created_at, :user, :hashtags, :parent_post_id
 
-  def initialize(id = nil, parent_post_id = nil, text:, user:)
+  def initialize(id = nil, parent_post_id = nil, created_at = nil, text:, user:)
     @id = id
     @created_at = created_at
     @text = text
@@ -49,4 +49,27 @@ class Post < Model
       PostHashtag.new(post: self, hashtag: hashtag).save
     end
   end
+
+  # rubocop:disable Metrics/MethodLength
+  def self.find_by_hashtag(hashtag)
+    return [] if hashtag.nil?
+
+    results = Post.client.query(
+      "SELECT posts.id, posts.text, posts.attachment, posts.user_id, posts.parent_post_id, posts.created_at
+       FROM posts INNER JOIN post_hashtags ON posts.id = post_hashtags.post_id
+       INNER JOIN hashtags ON hashtags.id = post_hashtags.hashtag_id
+       WHERE hashtags.text = '#{hashtag.text}'"
+    )
+
+    posts = []
+    results.each do |result|
+      user = User.find_by_id(result['user_id'])
+      posts << Post.new(
+        result['id'], result['parent_post_id'], result['created_at'], user: user, text: result['text']
+      )
+    end
+
+    posts
+  end
+  # rubocop:enable Metrics/MethodLength
 end

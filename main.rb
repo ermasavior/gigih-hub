@@ -22,6 +22,11 @@ post '/api/posts/:id/comment' do
   controller.create_comment(params)
 end
 
+get '/api/posts' do
+  controller = PostController.new
+  controller.fetch_by_hashtag(params)
+end
+
 get '/api/hashtags/trending' do
   controller = HashtagController.new
   controller.fetch_trendings

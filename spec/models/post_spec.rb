@@ -152,4 +152,53 @@ RSpec.describe 'Post' do
       post.save_hashtags
     end
   end
+
+  describe '.find_by_hashtag' do
+    let(:post_id) { 1 }
+    let(:created_at) { '2021-08-20 23:23:12' }
+    let(:expected_query) do
+      "SELECT posts.id, posts.text, posts.attachment, posts.user_id, posts.parent_post_id, posts.created_at
+       FROM posts INNER JOIN post_hashtags ON posts.id = post_hashtags.post_id
+       INNER JOIN hashtags ON hashtags.id = post_hashtags.hashtag_id
+       WHERE hashtags.text = '#{hashtag.text}'"
+    end
+    let(:expected_query_result) do
+      [{
+        'id' => post_id, 'text' => text, 'user_id' => user.id,
+        'parent_post_id' => parent_post_id, 'created_at' => created_at
+      }]
+    end
+
+    context 'when params is valid' do
+      let(:hashtag) { Hashtag.new(text: '#hello') }
+
+      before do
+        allow(User).to receive(:find_by_id).with(user.id).and_return(user)
+      end
+
+      it 'triggers query to get posts by hashtag' do
+        expect(Post.client).to receive(:query).with(expected_query)
+                                              .and_return(expected_query_result)
+
+        posts = Post.find_by_hashtag(hashtag)
+
+        posts.each do |post|
+          expect(post.id).to eq(post_id)
+          expect(post.user).to eq(user)
+          expect(post.text).to eq(text)
+          expect(post.created_at).to eq(created_at)
+          expect(post.parent_post_id).to eq(parent_post_id)
+        end
+      end
+    end
+
+    context 'when params is invalid' do
+      let(:hashtag) { nil }
+
+      it 'returns empty array' do
+        posts = Post.find_by_hashtag(hashtag)
+        expect(posts).to eq([])
+      end
+    end
+  end
 end
