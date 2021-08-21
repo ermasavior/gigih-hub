@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class AttachmentUploader
   attr_reader :filename, :tempfile, :base_url
 
@@ -17,12 +19,12 @@ class AttachmentUploader
 
     FileUtils.mkdir_p(BASE_FILE_PATH) unless File.exist?(BASE_FILE_PATH)
 
-    file_path = BASE_FILE_PATH + filename
+    file_path = BASE_FILE_PATH + secured_filename
     File.open(file_path, 'wb') do |f|
       f.write(tempfile.read)
     end
 
-    base_url + BASE_FILE_SUBPATH + filename
+    base_url + BASE_FILE_SUBPATH + secured_filename
   end
 
   private
@@ -33,5 +35,9 @@ class AttachmentUploader
     return false if base_url.nil? || base_url == ''
 
     true
+  end
+
+  def secured_filename
+    "#{SecureRandom.urlsafe_base64}_#{filename}"
   end
 end
