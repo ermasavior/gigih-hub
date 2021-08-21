@@ -33,7 +33,10 @@ class PostController
   end
 
   def fetch_by_hashtag(params)
-    hashtag = Hashtag.find_by_text(params['hashtag_text'])
+    hashtag_text = params['hashtag_text']
+    return { status: 400, data: nil } if hashtag_text.nil? || hashtag_text == ''
+
+    hashtag = Hashtag.find_by_text(hashtag_text)
     posts = Post.find_by_hashtag(hashtag)
 
     {
