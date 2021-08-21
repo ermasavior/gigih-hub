@@ -1,8 +1,10 @@
 require 'sinatra'
 
 class AttachmentUploader
-  def initialize
-    @filename = nil
-    @tempfile = nil
+  attr_reader :filename, :tempfile
+
+  def initialize(params)
+    @filename = params['filename']
+    @tempfile = params['tempfile']
   end
 end

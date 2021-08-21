@@ -3,7 +3,7 @@ require_relative '../../services/attachment_uploader'
 RSpec.describe 'AttachmentUploader' do
   let(:filename) { 'dummy.png' }
   let(:tempfile) { double }
-  let(:params) { { 'filename' => filename, 'tempfile' => tempfile } }
+  let(:params) { { "filename" => filename, "tempfile" => tempfile } }
 
   describe 'initialize' do
     it 'creates new AttachmentUploader object' do
