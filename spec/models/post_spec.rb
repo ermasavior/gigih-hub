@@ -154,19 +154,17 @@ RSpec.describe 'Post' do
   end
 
   describe '.find_by_hashtag' do
+    let(:post_id) { 1 }
     let(:created_at) { '2021-08-20 23:23:12' }
-    let(:hashtag) { Hashtag.new(text: "#Semangat") }
+    let(:hashtag) { Hashtag.new(text: "#hello") }
     let(:expected_query) do
       "SELECT posts.id, posts.text, posts.attachment, posts.user_id, posts.parent_post_id, posts.created_at
        FROM posts INNER JOIN post_hashtags ON posts.id = post_hashtags.post_id
        INNER JOIN hashtags ON hashtags.id = post_hashtags.hashtag_id
-       WHERE hashtags.text = #{hashtag.text}"
+       WHERE hashtags.text = '#{hashtag.text}'"
     end
     let(:expected_query_result) do
-      [ { 'id' => 1, 'text' => text, 'user_id': user.id } ]
-    end
-    let(:expected_posts) do
-      [ Post.new(1, created_at, user: user, text: text) ]
+      [ { 'id' => post_id, 'text' => text, 'user_id' => user.id, 'parent_post_id' => parent_post_id, 'created_at' => created_at } ]
     end
 
     before do
@@ -178,7 +176,14 @@ RSpec.describe 'Post' do
         .and_return(expected_query_result)
 
       posts = Post.find_by_hashtag(hashtag)
-      expect(posts).to eq(expected_posts)
+
+      posts.each do |post|
+        expect(post.id).to eq(post_id)
+        expect(post.user).to eq(user)
+        expect(post.text).to eq(text)
+        expect(post.created_at).to eq(created_at)
+        expect(post.parent_post_id).to eq(parent_post_id)
+      end
     end
   end
 end
