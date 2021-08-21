@@ -52,6 +52,8 @@ class Post < Model
 
   # rubocop:disable Metrics/MethodLength
   def self.find_by_hashtag(hashtag)
+    return [] if hashtag.nil?
+
     results = Post.client.query(
       "SELECT posts.id, posts.text, posts.attachment, posts.user_id, posts.parent_post_id, posts.created_at
        FROM posts INNER JOIN post_hashtags ON posts.id = post_hashtags.post_id
