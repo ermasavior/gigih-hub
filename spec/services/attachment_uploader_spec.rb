@@ -3,7 +3,8 @@ require_relative '../../services/attachment_uploader'
 RSpec.describe 'AttachmentUploader' do
   let(:filename) { 'dummy.png' }
   let(:tempfile) { double }
-  let(:params) { { "filename" => filename, "tempfile" => tempfile } }
+  let(:base_url) { 'http://localhost:4567/' }
+  let(:params) { { 'filename' => filename, 'tempfile' => tempfile, 'base_url' => base_url } }
 
   describe 'initialize' do
     it 'creates new AttachmentUploader object' do
