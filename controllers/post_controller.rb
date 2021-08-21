@@ -31,4 +31,7 @@ class PostController
 
     { status: 200, data: post.to_hash }
   end
+
+  def fetch_by_hashtag(params)
+  end
 end

@@ -116,4 +116,32 @@ RSpec.describe 'PostController' do
       end
     end
   end
+
+  describe '.fetch_by_params' do
+    let(:hashtag_text) { '#gigih' }
+    let(:params) { { 'hashtag_text' => hashtag_text } }
+    let(:hashtag) { Hashtag.new(text: hashtag_text) }
+    let(:posts) do
+      [
+        Post.new(user: user, text: 'Mari #gigih'),
+        Post.new(user: user, text: 'Semangat #gigih'),
+        Post.new(user: user, text: 'Kelas #gigih')
+      ]
+    end
+    let(:data) { posts.map(&:to_hash) }
+    let(:expected_response) do
+      { status: 200, data: data }
+    end
+
+    before do
+      allow(Post).to receive(:find_by_hashtag).with(hashtag)
+                                              .and_return(posts)
+    end
+
+    it 'returns expected response' do
+      controller = PostController.new
+      response = controller.fetch_by_hashtag(params)
+      expect(response).to eq(expected_response)
+    end
+  end
 end
