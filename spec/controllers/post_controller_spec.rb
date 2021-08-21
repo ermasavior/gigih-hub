@@ -117,7 +117,7 @@ RSpec.describe 'PostController' do
     end
   end
 
-  describe '.fetch_by_params' do
+  describe '.fetch_by_hashtag' do
     let(:hashtag_text) { '#gigih' }
     let(:params) { { 'hashtag_text' => hashtag_text } }
     let(:hashtag) { Hashtag.new(text: hashtag_text) }
@@ -134,6 +134,8 @@ RSpec.describe 'PostController' do
     end
 
     before do
+      allow(Hashtag).to receive(:find_by_text).with(hashtag_text)
+                                              .and_return(hashtag)
       allow(Post).to receive(:find_by_hashtag).with(hashtag)
                                               .and_return(posts)
     end

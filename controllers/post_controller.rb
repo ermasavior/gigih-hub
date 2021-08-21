@@ -33,5 +33,12 @@ class PostController
   end
 
   def fetch_by_hashtag(params)
+    hashtag = Hashtag.find_by_text(params['hashtag_text'])
+    posts = Post.find_by_hashtag(hashtag)
+
+    {
+      status: 200,
+      data: posts.map(&:to_hash)
+    }
   end
 end
