@@ -18,7 +18,9 @@ RSpec.describe 'AttachmentUploader' do
   describe '.upload' do
     let(:attachment_uploader) { AttachmentUploader.new(params) }
     let(:file_path) { AttachmentUploader::BASE_FILE_PATH + attachment_uploader.filename }
-    let(:file_url) { attachment_uploader.base_url + 'storage/' + attachment_uploader.filename }
+    let(:file_url) do
+      attachment_uploader.base_url + AttachmentUploader::BASE_FILE_SUBPATH + attachment_uploader.filename
+    end
 
     context 'when params are valid' do
       it 'uploads file into file_path' do
