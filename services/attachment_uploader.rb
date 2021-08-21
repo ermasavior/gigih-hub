@@ -1,5 +1,5 @@
 class AttachmentUploader
-  attr_reader :filename, :tempfile
+  attr_reader :filename, :tempfile, :base_url
 
   BASE_FILE_PATH = './public/storage/'
 

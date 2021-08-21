@@ -14,4 +14,19 @@ RSpec.describe 'AttachmentUploader' do
       expect(attachment_uploader.tempfile).to eq(tempfile)
     end
   end
+
+  describe '.upload' do
+    let(:attachment_uploader) { AttachmentUploader.new(params) }
+    let(:file_path) { AttachmentUploader::BASE_FILE_PATH + attachment_uploader.filename }
+    let(:file_url) { attachment_uploader.base_url + 'storage/' + attachment_uploader.filename }
+
+    context 'when params are valid' do
+      it 'uploads file into file_path' do
+        expect(File).to receive(:open).with(file_path, 'wb')
+
+        upload_url = attachment_uploader.upload
+        expect(upload_url).to eq(file_url)
+      end
+    end
+  end
 end
