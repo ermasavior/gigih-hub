@@ -36,9 +36,18 @@ RSpec.describe 'AttachmentUploader' do
       let(:file_url) do
         attachment_uploader.base_url + AttachmentUploader::BASE_FILE_SUBPATH + attachment_uploader.filename
       end
+      let(:file_stub) { double }
+      let(:tempfile_stub) { double }
+
+      before do
+        allow(File).to receive(:exists?).with(AttachmentUploader::BASE_FILE_PATH)
+                                        .and_return(true)
+      end
 
       it 'uploads file into file_path' do
-        expect(File).to receive(:open).with(file_path, 'wb')
+        expect(tempfile).to receive(:read).and_return(tempfile_stub)
+        expect(File).to receive(:open).with(file_path, 'wb').and_yield(file_stub)
+        expect(file_stub).to receive(:write).with(tempfile_stub)
 
         upload_url = attachment_uploader.upload
         expect(upload_url).to eq(file_url)

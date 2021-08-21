@@ -15,9 +15,11 @@ class AttachmentUploader
   def upload
     return nil unless params_valid?
 
+    FileUtils.mkdir_p(BASE_FILE_PATH) unless File.exists?(BASE_FILE_PATH)
+
     file_path = BASE_FILE_PATH + filename
     File.open(file_path, 'wb') do |f|
-      f.write(file.read)
+      f.write(tempfile.read)
     end
 
     base_url + BASE_FILE_SUBPATH + filename
