@@ -38,6 +38,6 @@ class AttachmentUploader
   end
 
   def secured_filename
-    "#{SecureRandom.urlsafe_base64}_#{filename}"
+    @secured_filename ||= "#{SecureRandom.urlsafe_base64}_#{filename}"
   end
 end
