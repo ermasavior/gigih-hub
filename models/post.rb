@@ -3,21 +3,23 @@ require_relative '../models/hashtag'
 require 'date'
 
 class Post < Model
-  attr_reader :id, :text, :created_at, :user, :hashtags, :parent_post_id
+  attr_reader :id, :text, :created_at, :user, :attachment, :hashtags, :parent_post_id
 
-  def initialize(id = nil, parent_post_id = nil, created_at = nil, text:, user:)
+  def initialize(id = nil, parent_post_id = nil, created_at = nil, attachment = nil, text:, user:)
     @id = id
     @created_at = created_at
     @text = text
     @user = user
     @hashtags = Hashtag.extract_hashtags(@text)
     @parent_post_id = parent_post_id
+    @attachment = attachment
   end
 
   def to_hash
     {
       id: id, created_at: created_at, text: text, user: user.to_hash,
-      parent_post_id: parent_post_id, hashtags: hashtags.map(&:to_hash)
+      parent_post_id: parent_post_id, hashtags: hashtags.map(&:to_hash),
+      attachment: attachment
     }
   end
 

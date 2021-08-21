@@ -53,7 +53,8 @@ RSpec.describe 'Post' do
     let(:expected_hash) do
       {
         id: post.id, created_at: post.created_at, text: post.text, user: post.user.to_hash,
-        parent_post_id: post.parent_post_id, hashtags: post.hashtags.map(&:to_hash)
+        parent_post_id: post.parent_post_id, hashtags: post.hashtags.map(&:to_hash),
+        attachment: post.attachment
       }
     end
 
