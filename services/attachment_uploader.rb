@@ -11,6 +11,8 @@ class AttachmentUploader
   end
 
   def upload
+    return nil if filename.nil? || filename == '' || tempfile.nil? || tempfile == '' || base_url.nil? || base_url == ''
+
     file_path = BASE_FILE_PATH + filename
     File.open(file_path, 'wb') do |f|
       f.write(file.read)
