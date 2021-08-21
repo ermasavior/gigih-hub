@@ -121,6 +121,17 @@ RSpec.describe 'Post' do
             post.save
           end
         end
+
+        context 'when there is no attachment' do
+          let(:expected_query) { query_without_attachment }
+
+          it 'triggers insert new post query with attachment' do
+            expect(Post.client).to receive(:query).with(expected_query).once
+
+            post = Post.new(text: text, user: user)
+            post.save
+          end
+        end
       end
     end
 
