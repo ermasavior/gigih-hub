@@ -17,17 +17,31 @@ RSpec.describe 'AttachmentUploader' do
 
   describe '.upload' do
     let(:attachment_uploader) { AttachmentUploader.new(params) }
-    let(:file_path) { AttachmentUploader::BASE_FILE_PATH + attachment_uploader.filename }
-    let(:file_url) do
-      attachment_uploader.base_url + AttachmentUploader::BASE_FILE_SUBPATH + attachment_uploader.filename
-    end
 
     context 'when params are valid' do
+      let(:file_path) { AttachmentUploader::BASE_FILE_PATH + attachment_uploader.filename }
+      let(:file_url) do
+        attachment_uploader.base_url + AttachmentUploader::BASE_FILE_SUBPATH + attachment_uploader.filename
+      end
+
       it 'uploads file into file_path' do
         expect(File).to receive(:open).with(file_path, 'wb')
 
         upload_url = attachment_uploader.upload
         expect(upload_url).to eq(file_url)
+      end
+    end
+
+    context 'when params are invalid' do
+      let(:filename) { [nil, ''].sample }
+      let(:tempfile) { [nil, ''].sample }
+      let(:base_url) { [nil, ''].sample }
+
+      it 'does not upload file to file_path' do
+        expect(File).not_to receive(:open)
+
+        upload_url = attachment_uploader.upload
+        expect(upload_url).to eq(nil)
       end
     end
   end
