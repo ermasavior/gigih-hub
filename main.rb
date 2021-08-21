@@ -19,11 +19,15 @@ post '/api/users' do
 end
 
 post '/api/posts' do
+  params['attachment']['base_url'] = base_url if params&.key?('attachment')
+
   controller = PostController.new
   controller.create_post(params)
 end
 
 post '/api/posts/:id/comment' do
+  params['attachment']['base_url'] = base_url if params&.key?('attachment')
+
   controller = PostController.new
   controller.create_comment(params)
 end
@@ -34,14 +38,6 @@ get '/api/posts' do
 end
 
 get '/api/hashtags/trending' do
-  file_name = params['attachment']['filename']
-  puts file_name
-  file = params['attachment']['tempfile']
-  file_path = "./public/storage/#{file_name}"
-  puts base_url + file_name
-  params[:attachment][:baseurl] = base_url if params.key?("attachment")
-  puts params[:attachment][:baseurl]
-
   controller = HashtagController.new
   controller.fetch_trendings
 end
