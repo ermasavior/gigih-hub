@@ -72,7 +72,6 @@ RSpec.describe 'Post' do
   end
 
   describe '.save' do
-    let(:expected_query) { query_without_attachment }
     context 'when params are valid' do
       let(:parent_post_id_query) { 'NULL' }
       let(:created_at) { '2021-08-20 23:23:12' }
@@ -82,6 +81,7 @@ RSpec.describe 'Post' do
         hashtag_texts.map { |tag| Hashtag.new(text: tag) }
       end
       let(:post_id) { 1 }
+      let(:expected_query) { query_without_attachment }  
 
       before(:each) do
         allow(Hashtag).to receive(:extract_hashtags).with(text).and_return(hashtags)
