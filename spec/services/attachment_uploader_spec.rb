@@ -40,8 +40,8 @@ RSpec.describe 'AttachmentUploader' do
       let(:tempfile_stub) { double }
 
       before do
-        allow(File).to receive(:exists?).with(AttachmentUploader::BASE_FILE_PATH)
-                                        .and_return(true)
+        allow(File).to receive(:exist?).with(AttachmentUploader::BASE_FILE_PATH)
+                                       .and_return(true)
       end
 
       it 'uploads file into file_path' do
