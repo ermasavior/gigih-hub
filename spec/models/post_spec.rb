@@ -284,5 +284,15 @@ RSpec.describe 'Post' do
         Post.client.query("DELETE FROM posts WHERE id='#{created_post_id}'")
       end
     end
+
+    context 'when post is not found' do
+      let(:id) { -1}
+
+      it 'returns nil' do
+        post = Post.find_by_id(id)
+
+        expect(post).to eq(nil)
+      end
+    end
   end
 end
