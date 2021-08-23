@@ -75,6 +75,9 @@ class Post < Model
   end
   # rubocop:enable Metrics/MethodLength
 
+  def self.find_by_id(id)
+  end
+
   private
 
   def get_insert_query(current_time)

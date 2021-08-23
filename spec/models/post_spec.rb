@@ -257,4 +257,33 @@ RSpec.describe 'Post' do
       end
     end
   end
+
+  describe '.find_by_id' do
+    context 'when post is found' do
+      let(:post_id) { nil }
+      let(:created_at) { nil }
+      let(:text) { 'abc' }
+      let(:user) { user }
+      let(:attachment) { nil }
+      let(:parent_post_id) { nil }
+
+      let(:created_post_id) { Post.client.last_id }
+
+      before do
+        Post.new(post_params).save
+      end
+
+      it 'returns post' do
+        post = Post.find_by_id(created_post_id)
+
+        expect(post.text).to eq(text)
+        expect(post.user.id).to eq(user.id)
+        expect(created_at).not_to eq(nil)
+      end
+
+      after do
+        Post.client.query("DELETE FROM posts WHERE id='#{created_post_id}'")
+      end
+    end
+  end
 end
