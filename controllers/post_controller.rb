@@ -21,7 +21,7 @@ class PostController
 
   def create_comment(params)
     parent_post = Post.find_by_id(params['id'])
-    return { status: 400, data: nil } if parent_post.nil?
+    return { status: 404, data: nil } if parent_post.nil?
 
     user = User.find_by_id(params['user_id'])
 
