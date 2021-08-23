@@ -79,6 +79,7 @@ RSpec.describe 'PostController' do
 
   describe '.create_comment' do
     let(:parent_post_id) { 1 }
+    let(:parent_post) { double }
     let(:params) do
       {
         'user_id' => user.id, 'id' => parent_post_id,
@@ -95,6 +96,9 @@ RSpec.describe 'PostController' do
       expect(AttachmentUploader).to receive(:new).with(attachment_params)
                                                  .and_return(attachment_uploader)
       expect(attachment_uploader).to receive(:upload).and_return(attachment_filepath)
+
+      expect(Post).to receive(:find_by_id).with(parent_post_id).and_return(parent_post)
+      expect(parent_post).to receive(:id).and_return(parent_post_id)
       expect(User).to receive(:find_by_id).with(user.id).and_return(user)
       expect(Post).to receive(:new).with(post_params)
                                    .and_return(post)
@@ -124,6 +128,8 @@ RSpec.describe 'PostController' do
         let(:data) { post.to_hash }
 
         it 'returns status 200' do
+          allow(Post).to receive(:find_by_id).and_return(parent_post)
+          allow(parent_post).to receive(:id).and_return(parent_post_id)
           allow(post).to receive(:save).and_return(true)
 
           controller = PostController.new
