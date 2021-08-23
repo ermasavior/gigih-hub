@@ -1,0 +1,7 @@
+- name: Build and transfer build file to GCP
+  hosts: localhost
+  tasks:
+    - name: Remove previous built program
+      command: rm -f build.tgz
+    - name: Build program into tarfile
+      command: tar --exclude='./.git' --exclude='./coverage' --exclude='./vendor' --exclude='./public/storage' -zcvf build.tgz ../.
