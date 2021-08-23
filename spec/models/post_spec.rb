@@ -263,7 +263,6 @@ RSpec.describe 'Post' do
       let(:post_id) { nil }
       let(:created_at) { nil }
       let(:text) { 'abc' }
-      let(:user) { user }
       let(:attachment) { nil }
       let(:parent_post_id) { nil }
 
@@ -278,7 +277,7 @@ RSpec.describe 'Post' do
 
         expect(post.text).to eq(text)
         expect(post.user.id).to eq(user.id)
-        expect(created_at).not_to eq(nil)
+        expect(post.created_at).not_to eq(nil)
       end
 
       after do
