@@ -10,7 +10,7 @@ helpers do
 end
 
 get '/' do
-  return 'Hello World from Gigih Hub API'
+  { status: 200, data: 'Hello World from Gigih Hub API' }
 end
 
 post '/api/users' do
@@ -43,5 +43,6 @@ get '/api/hashtags/trending' do
 end
 
 after do
+  response.status = response.body[:status]
   response.body = JSON.dump(response.body)
 end

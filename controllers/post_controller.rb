@@ -20,12 +20,12 @@ class PostController
   end
 
   def create_comment(params)
-    parent_post_id = params['id']
-    return { status: 400, data: nil } if parent_post_id.nil? || parent_post_id == ''
+    parent_post = Post.find_by_id(params['id'])
+    return { status: 404, data: nil } if parent_post.nil?
 
     user = User.find_by_id(params['user_id'])
 
-    params = { text: params['text'], user: user, parent_post_id: parent_post_id,
+    params = { text: params['text'], user: user, parent_post_id: parent_post.id,
                attachment: upload_attachment_filepath(params['attachment']) }
     post = Post.new(params)
 
