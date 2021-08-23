@@ -286,7 +286,7 @@ RSpec.describe 'Post' do
     end
 
     context 'when post is not found' do
-      let(:id) { -1}
+      let(:id) { [-1, '', nil].sample }
 
       it 'returns nil' do
         post = Post.find_by_id(id)

@@ -77,12 +77,14 @@ class Post < Model
 
   def self.find_by_id(id)
     result = Post.client.query("SELECT * FROM posts WHERE id='#{id}'").first
-    user = User.find_by_id(result['user_id'])
+    return nil if result.nil?
 
+    user = User.find_by_id(result['user_id'])
     params = {
       id: result['id'], created_at: result['created_at'], text: result['text'], user: user,
       attachment: result['attachment'], parent_post_id: result['parent_post_id']
     }
+
     Post.new(params)
   end
 
