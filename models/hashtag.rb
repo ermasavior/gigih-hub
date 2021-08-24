@@ -54,6 +54,7 @@ class Hashtag < Model
       FROM hashtags
       INNER JOIN post_hashtags ON hashtags.id = post_hashtags.hashtag_id
       INNER JOIN posts ON posts.id = post_hashtags.post_id
+      WHERE posts.created_at >= now() - INTERVAL 1 DAY
       GROUP BY hashtags.id
       ORDER BY COUNT(*) DESC
       LIMIT 5
