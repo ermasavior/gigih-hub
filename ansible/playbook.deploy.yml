@@ -9,6 +9,8 @@
         state: directory
     - name: Move public folder to app-backup folder
       command: "mv {{ home_path }}/app/public {{ home_path }}/app-backup"
+    - name: Move .env file to app-backup folder
+      command: "mv {{ home_path }}/app/.env {{ home_path }}/app-backup"
 
 - name: Remote deployment - stop running app service
   hosts: gcp
@@ -48,20 +50,9 @@
   tasks:
     - name: Move public folder to app folder
       command: "mv {{ home_path }}/app-backup/public {{ home_path }}/app"
+    - name: Move .env file to app-backup folder
+      command: "mv {{ home_path }}/app-backup/.env {{ home_path }}/app"
     - name: Delete app-backup folder
       ansible.builtin.file:
         path: "{{ home_path }}/app-backup"
         state: absent
-
-## There is an issue in executing bundle install using rbenv
-# - name: Remote deployment - install app service
-#   hosts: gcp
-#   tasks:
-#     - name: Install gems into ./vendor/bundle
-#       community.general.bundler:
-#         chdir: "{{ ansible_facts['env']['HOME'] }}/app"
-#         state: present
-#         deployment_mode: yes
-#     - name: Start systemd
-#       become: yes
-#       command: systemctl start gigih-hub.service
