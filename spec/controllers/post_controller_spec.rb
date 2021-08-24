@@ -141,10 +141,10 @@ RSpec.describe 'PostController' do
 
       context 'when params are invalid' do
         let(:parent_post_id) { [nil, ''].sample }
-        let(:status) { 400 }
+        let(:status) { 404 }
         let(:data) { nil }
 
-        it 'returns status 400' do
+        it 'returns status 404 not found' do
           controller = PostController.new
           response = controller.create_comment(params)
 

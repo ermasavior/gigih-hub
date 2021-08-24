@@ -2,20 +2,20 @@ require_relative '../../controllers/hashtag_controller'
 
 RSpec.describe 'HashtagController' do
   describe '.fetch_trendings' do
-    let(:hashtags) do
+    let(:trending_results) do
       [
-        Hashtag.new(text: '#gigih1'),
-        Hashtag.new(text: '#gigih2'),
-        Hashtag.new(text: '#gigih3')
+        { text: '#gigih1', hashtag_count: 50 },
+        { text: '#semangat2', hashtag_count: 40 },
+        { text: '#halo3', hashtag_count: 30 }
       ]
     end
-    let(:data) { hashtags.map(&:to_hash) }
+    let(:data) { trending_results }
     let(:expected_response) do
       { status: 200, data: data }
     end
 
     before do
-      allow(Hashtag).to receive(:find_trendings).and_return(hashtags)
+      allow(Hashtag).to receive(:find_trendings).and_return(trending_results)
     end
 
     it 'returns expected response' do

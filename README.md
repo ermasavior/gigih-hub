@@ -11,7 +11,7 @@ The Gigih Hub Social Media contains six functional requirements.
 - [x] Lets user comment in a post with hashtag
 - [x] Lets user attach media (jpg, png, mp4) in a post or comment
 - [x] Lets user get posts with a hashtag
-- [x] Shows 5 trending hashtags
+- [x] Shows 5 trending hashtags in the past 24 hours
 
 ## Database Schema
 ![ER Diagram](/docs/ERD.png)
