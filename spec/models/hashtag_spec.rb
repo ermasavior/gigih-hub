@@ -193,12 +193,9 @@ RSpec.describe 'Hashtag' do
   end
 
   describe '.find_trendings' do
-    let(:trending_hashtag_texts) do
-      ['#gigih1', '#semangat2', '#halo3', '#oke4', '#santai5']
-    end
     let(:expected_query) do
       "
-      SELECT hashtags.id, hashtags.text, COUNT(*) AS hashtag_count
+      SELECT hashtags.text, COUNT(*) AS hashtag_count
       FROM hashtags
       INNER JOIN post_hashtags ON hashtags.id = post_hashtags.hashtag_id
       INNER JOIN posts ON posts.id = post_hashtags.post_id
@@ -210,9 +207,21 @@ RSpec.describe 'Hashtag' do
     end
     let(:expected_query_result) do
       idx = 0
-      trending_hashtag_texts.map do |hashtag_text|
-        { 'id' => idx + 1, 'text' => hashtag_text }
+      expected_results.map do |expected_result|
+        {
+          'text' => expected_result[:text],
+          'hashtag_count' => expected_results[:hashtag_count]
+        }
       end
+    end
+    let(:expected_results) do
+      [
+        { text: '#gigih1', hashtag_count: 50 },
+        { text: '#semangat2', hashtag_count: 40 },
+        { text: '#halo3', hashtag_count: 30 },
+        { text: '#oke4', hashtag_count: 20 },
+        { text: '#santai5', hashtag_count: 10 }
+      ]
     end
 
     it 'triggers query to get top five hashtags' do
@@ -226,9 +235,10 @@ RSpec.describe 'Hashtag' do
       allow(Hashtag.client).to receive(:query).with(expected_query).once
                                               .and_return(expected_query_result)
 
-      hashtags = Hashtag.find_trendings
-      hashtags.zip(trending_hashtag_texts).each do |hashtag, hashtag_text|
-        expect(hashtag.text).to eq(hashtag_text)
+      results = Hashtag.find_trendings
+      results.zip(expected_results).each do |result, expected_result|
+        expect(result.text).to eq(expected_result[:text])
+        expect(result.hashtag_count).to eq(expected_result[:hashtag_count])
       end
     end
   end
