@@ -48,7 +48,7 @@ These libraries are bundled in a `Gemfile`.
     
     Then, import our database dump file in the `/db` directory
 
-        mysql -u <your-mysql-username> -p gigih_hub_db < /db/gigih_hub_db_dump.sql
+        mysql -u <your-mysql-username> -p gigih_hub_db < db/gigih_hub_db_dump.sql
 
 3. Setup environment variable by creating a `.env` file. The example file is available in `.env.example`.
 
@@ -82,7 +82,7 @@ These libraries are bundled in a `Gemfile`.
 
 ## API Documentation
 
-This application contains APIs to run the functionalities defined above. It is run with base path `localhost:4567/api`. To see the documentation, check out [the Postman Collection](docs/GigihHub-API.postman_collection.json)
+This application contains APIs to run the functionalities defined above. It is run with base path `localhost:4567/api`. To see the documentation, check out [the Postman API Documentation](https://documenter.getpostman.com/view/14259820/TzzEmZPm#0add49ed-42db-45b7-b379-62891ba3fc2b), or [the Postman Collection](docs/GigihHub-API.postman_collection.json).
 
 ## Deployment
 
