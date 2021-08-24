@@ -206,11 +206,10 @@ RSpec.describe 'Hashtag' do
     "
     end
     let(:expected_query_result) do
-      idx = 0
       expected_results.map do |expected_result|
         {
           'text' => expected_result[:text],
-          'hashtag_count' => expected_results[:hashtag_count]
+          'hashtag_count' => expected_result[:hashtag_count]
         }
       end
     end
@@ -237,8 +236,8 @@ RSpec.describe 'Hashtag' do
 
       results = Hashtag.find_trendings
       results.zip(expected_results).each do |result, expected_result|
-        expect(result.text).to eq(expected_result[:text])
-        expect(result.hashtag_count).to eq(expected_result[:hashtag_count])
+        expect(result[:text]).to eq(expected_result[:text])
+        expect(result[:hashtag_count]).to eq(expected_result[:hashtag_count])
       end
     end
   end

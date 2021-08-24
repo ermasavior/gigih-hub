@@ -49,8 +49,8 @@ class Hashtag < Model
 
   # rubocop:disable Metrics/MethodLength
   def self.find_trendings
-    results = Hashtag.client.query("
-      SELECT hashtags.id, hashtags.text, COUNT(*) AS hashtag_count
+    raw_data = Hashtag.client.query("
+      SELECT hashtags.text, COUNT(*) AS hashtag_count
       FROM hashtags
       INNER JOIN post_hashtags ON hashtags.id = post_hashtags.hashtag_id
       INNER JOIN posts ON posts.id = post_hashtags.post_id
@@ -60,11 +60,11 @@ class Hashtag < Model
       LIMIT 5
     ")
 
-    hashtags = []
-    results.each do |result|
-      hashtags << Hashtag.new(result['id'], text: result['text'])
+    results = []
+    raw_data.each do |result|
+      results << { text: result['text'], hashtag_count: result['hashtag_count'] }
     end
-    hashtags
+    results
   end
   # rubocop:enable Metrics/MethodLength
 end
